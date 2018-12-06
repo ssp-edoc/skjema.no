@@ -47,6 +47,13 @@ document.addEventListener("DOMContentLoaded", function(){
 
 ## API
 
+### Uthenting av versjonsnummer
+
+For å finne versjonsnummer på viewer.js, kan du i konsollet skrive:
+```javascript
+viewer.version
+```
+
 ### `init()`
 `.init()` initialiserer viewer.js og må være det første kallet til viewer.js.
 

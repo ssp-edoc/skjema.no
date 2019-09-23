@@ -1,6 +1,6 @@
 # viewer.js
 
-Pakken inneholder koden for vise skjema.
+Pakken inneholder koden for viewer.js.
 
 ## Installasjon
 

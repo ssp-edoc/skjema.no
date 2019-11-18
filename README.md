@@ -153,7 +153,7 @@ Merk at viewer.js vil hive en exception dersom mer enn én av `formId`, `refId` 
 ##### Event-handling
 Når et skjema er startet, kan utfyller avbryte, lagre eller sende inn skjemaet. viewer.js tilbyr event-handlere som gjør det mulig å hooke seg på disse hendelsene.
 
-Koden nedenfor viser et eksempel på hvordan disse event-handlerne kan implementeres.
+Koden nedenfor viser et eksempel på hvordan de viktigste event-handlerne kan implementeres.
 
 ```javascript
 viewer
@@ -246,6 +246,25 @@ viewer
         }
     });
 ```
+
+###### `onStarting`
+`onStarting` blir kalt _før_ viewer starter opp et skjema, enten det er et nytt skjema eller gjenopptaking av eksisterende skjema. Eventet kan benyttes til å eksempelvis å sjekke at brukeren har akseptert personvernerklæring. Det er ikke obligatorisk å registere event-handler på eventet. 
+
+```javascript
+viewer
+    .init({...})
+    .form({
+        ...
+        onStarting: function() {
+		    let readAndAcceptedPrivacy = sessionStorage.getItem("readAndAcceptedPrivacy"); //sjekk om bruker har godkjent personvernerklæring
+			
+			if(!readAndAcceptedPrivacy) {
+				showPrivacyConfirmation() //må implementeres av deg
+			}				
+        },        
+    });
+```
+
 
 ### `getCaseInfo()` - uthenting av info for kvittering
 Etter innsending av skjema er det vanlig å vise en side som viser skjemaets navn, tidspunkt for innsendelse og referanse id. Denne informasjonen hentes via kall til `viewer.getCaseInfo(refId)`. `refId` får du fra `onSubmitted()`-eventet når skjemaet sendes inn. 

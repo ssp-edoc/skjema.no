@@ -305,7 +305,7 @@ viewer
 ```
 
 #### session object:
-Eksempelet nedenfor setter opp 20 minutter som inaktiv periode, med varsling 5 minutter før disse 20 minuttene nåes. `onIdleTimeoutWarning()` blir da kalt et gitt antall minutter før sesjonen utgår. Eventet gjør det mulig å vise en dialog der bruker kan forlenge eller avslutte sesjonen sin. Kall `extendSession()` dersom sesjonen skal forlenges, eller `endSession()` dersom sesjonen skal avsluttes. Det er valgfritt å registrere en handler på `onIdleTimeoutWarning`. Dersom 20 minutter med inaktivitet passerer, eller utfyller i `onIdleTimeoutWarning` velger å avslutte sesjonen, blir `onIdleTimeout` kalt.
+Eksempelet nedenfor setter opp 20 minutter som inaktiv periode, med varsling 5 minutter før disse 20 minuttene nåes. `onIdleTimeoutWarning()` blir da kalt et gitt antall minutter før sesjonen utgår. Eventet gjør det mulig å vise en dialog der bruker kan forlenge eller avslutte sesjonen sin. Kall `extendSession()` dersom sesjonen skal forlenges, eller `endSession()` dersom sesjonen skal avsluttes. Det er valgfritt å registrere en handler på `onIdleTimeoutWarning`. Dersom 20 minutter med inaktivitet passerer, eller utfyller i `onIdleTimeoutWarning` velger å avslutte sesjonen, blir `onIdleTimeout` kalt. I `onIdleTimeout` må du kalle `viewer.logOut()` og sende med _absolutt_ URL til siden som brukeren skal sendes til _etter_ at utlogging er fullført. Det er viktig at URL-en er absolutt (ikke relativ). Det er vanlig å sende brukeren til en side som bekrefter at vedkommende er utlogget. 
 
 ```javascript
 viewer
@@ -323,7 +323,7 @@ viewer
                 });
         },
         onIdleTimeout: function() {
-            document.location = "idleTimeout.html";
+			viewer.logOut('https://yourhost/logoutConfirmation.html'); //replace with URL of you choice, the URL must be ABSOLUTE!
         }
     })
 ```
@@ -361,14 +361,10 @@ Dersom du eksplisitt ønsker å logge en bruker inn via edoc-api, kan du kalle `
 viewer.logIn();
 ```
 
-For å logge bruker ut fra edoc-api, kaller du `viewer.logOut()`. 
+For å logge bruker ut fra edoc-api, kaller du `viewer.logOut()` med retur-URL som argument til metoden. Det er viktig at retur-URL er absolutt (ikke relativ). Det er vanlig å sende brukeren til en side som bekrefter at vedkommende er utlogget.
 
 ```javascript
-viewer.logOut()
-    .then(() => {
-        alert("Your session has ended.");
-        window.location = "index.html";            
-    });
+viewer.logOut('https://yourhost/logoutConfirmation.html'); //replace with URL of you choice, the URL must be ABSOLUTE!
 ```
 
 ### `getForms()`

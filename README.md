@@ -323,7 +323,7 @@ viewer
                 });
         },
         onIdleTimeout: function() {
-			viewer.logOut('https://yourhost/logoutConfirmation.html'); //replace with URL of you choice, the URL must be ABSOLUTE!
+            viewer.logOut('https://yourhost/logoutConfirmation.html'); //replace with URL of you choice, the URL must be ABSOLUTE!
         }
     })
 ```

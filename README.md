@@ -382,6 +382,8 @@ JWT-tokenet inneholder følgende informasjon om den påloggede brukeren, her rep
 
 JWT-tokenet har begrenset varighet og fornyes hver gang det gjøres et kall til edoc-api. Varigheten bestemmes av en innstilling i edoc-apiet og er per default 20 minutter. JWT tokenet sendes kun med til edoc-api-domenet den ble utstedet av. Edoc-api sender CORS-headere slik at kun kjente og godkjente domener får innhold fra edoc-api. 
 
+Merk at identity-provideren ID-porten returnerer brukerens fødselsnummer som id. Edoc-api benytter _ikke_ brukerens fødselsnummer som identifikator internt, men en enveis-hash (SHA-512) av et saltet fødselsnummer. Løsningen unngår på den måten å lagre fødselsnummeret. 
+
 Her kommer noen eksempler på hvordan du kan benytte single-sign-on funksjonaliteten i viewer.js og edoc-api:
 
 #### Innlogging

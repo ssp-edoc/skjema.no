@@ -360,7 +360,7 @@ Du kan også gjøre pålogging eksplisitt via viewer.js. viewer.js benytter edoc
 1. Brukeren har fått utstedt et [JWT-token](https://jwt.io/) av edoc-api. Tokenet er levert som en session-cookie. Cookien er httpOnly og kan ikke leses av JavaScript. Cookien er secure og sendes bare over HTTPS. 
 2. Brukeren har fått utstedt en session-cookie av single-sign-on provideren (e.g. ID-porten). 
 
-Edoc-api er stateless; det vedlikeholder ingen informasjon om brukerens pålogging. All nødvendig informasjon om brukerens identitet er lagret i JWT-tokenet. Tokenet inneholder en hash slik at informasjonen i tokenet ikke kan modifiseres. 
+Edoc-api er stateless; det ligger ingen informasjon om brukerens pålogging på serveren. All nødvendig informasjon om brukerens identitet er lagret i JWT-tokenet. Tokenet inneholder en hash slik at informasjonen i tokenet ikke kan modifiseres. 
 
 JWT-tokenet inneholder følgende informasjon om den påloggede brukeren, her representert som et JSON objekt:
 

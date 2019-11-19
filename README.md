@@ -367,16 +367,16 @@ JWT-tokenet inneholder følgende informasjon om den påloggede brukeren, her rep
 
 ```javascript
 {
-	"id": "<fødselsnummer>",
-	"securityLevel": 3,
-	"displayName": "Per Ove Olsen",
-	"firstName": "Per Ove",
-	"lastName": "Olsen",
-	"eMail": "per.ove@olsen.no",
-	"mobilePhone": "12312312",
-	"culture": "nb",
-	"idleTimeoutMinutes": 20,
-	"identityProvider": "MinID",
+    "id": "<fødselsnummer>",
+    "securityLevel": 3,
+    "displayName": "Per Ove Olsen",
+    "firstName": "Per Ove",
+    "lastName": "Olsen",
+    "eMail": "per.ove@olsen.no",
+    "mobilePhone": "12312312",
+    "culture": "nb",
+    "idleTimeoutMinutes": 20,
+    "identityProvider": "MinID",
 }
 ```
 

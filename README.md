@@ -355,10 +355,10 @@ viewer
     })
 ```
 
-Du kan også gjøre pålogging eksplisitt via viewer.js. viewer.js benytter edoc-api som backend. Edoc-api støtter pålogging med ID-porten, Feide og AD. ID-porten og Feide er single-sign-on løsninger. Det betyr at dersom du allerede har en backend integrert mot eksempelvis ID-porten, vil en pålogging i din backend-løsning automatisk sørge for at brukeren er pålogget i edoc-api. Uavhengig av om du har en eksisterende backend integrert mot noen identity-providere, kan du benytte denne funksjonaliteten for å utføre operasjoner som innlogging, utlogging og uthenting av brukerinformasjon. 
+Du kan også gjøre pålogging eksplisitt via viewer.js. viewer.js benytter edoc-api som backend. Edoc-api støtter pålogging med ID-porten, Feide og AD. ID-porten og Feide er single-sign-on løsninger. Det betyr at dersom du allerede har en backend integrert mot eksempelvis ID-porten, vil en pålogging i din backend-løsning automatisk sørge for at brukeren er pålogget i edoc-api. Uavhengig av om du har en eksisterende backend integrert mot noen identity-providere, kan du benytte funksjonaliteten i viewer.js for å utføre operasjoner som innlogging, utlogging og uthenting av brukerinformasjon. 
 
 Å være innlogget i edoc-api via en single-sign-on løsning innebærer to ting:
-1. Brukeren har fått utstedt en [JWT-token](https://jwt.io/) av edoc-api. Tokenet er levert som en session-cookie. Cookien er httpOnly og kan ikke leses av JavaScript. Cookien er secure og sendes bare over HTTPS. 
+1. Brukeren har fått utstedt et [JWT-token](https://jwt.io/) av edoc-api. Tokenet er levert som en session-cookie. Cookien er httpOnly og kan ikke leses av JavaScript. Cookien er secure og sendes bare over HTTPS. 
 2. Brukeren får fått utstedt en session-cookie av single-sign-on provideren (e.g. ID-porten). 
 
 Edoc-api er stateless. Det vedlikeholder ingen informasjon om brukerens pålogging. All nødvendig informasjon om brukerens identitet er lagret i JWT-tokenet. Tokenet inneholder en hash slik at informasjonen i tokenet ikke kan modifiseres. 
@@ -385,7 +385,7 @@ JWT-tokenet har en begrenset varighet og fornyes hver gang det gjøres et kall t
 Her kommer noen eksempler på hvordan du kan benytte single-sign-on funksjonaliteten i viewer.js og edoc-api:
 
 #### Innlogging
-Etter å ha gjort viewer.init med apiUrl og customerId, kan du gjøre innlogging med kallet `viewer.logIn()`. SecurityLevel settes til 3 eller 4, avhengig av hvilket [sikkerhetsnivå](http://eid.difi.no/nb/sikkerhet-og-informasjonskapsler/ulike-sikkerhetsniva) du krever at brukeren logger seg inn med. Kallet til `viewer.logIn()` vil resultere i at brukeren blir videresendt til en annen URL via `window.location.href`.
+Etter å ha gjort `viewer.init()` med apiUrl og customerId, kan du gjøre innlogging med kallet `viewer.logIn()`. SecurityLevel settes til 3 eller 4, avhengig av hvilket [sikkerhetsnivå](http://eid.difi.no/nb/sikkerhet-og-informasjonskapsler/ulike-sikkerhetsniva) du krever at brukeren logger seg inn med. Kallet til `viewer.logIn()` vil resultere i at brukeren blir videresendt til en annen URL via `window.location.href`.
 
 ```javascript
 viewer.init({
@@ -394,8 +394,8 @@ viewer.init({
 });
 
 viewer.logIn({
-	securityLevel: 3,
-	returnUrl: "https://yoursite.com/yourLandingPage"
+    securityLevel: 3,
+    returnUrl: "https://yoursite.com/yourLandingPage"
 });
 ```
 
@@ -403,8 +403,8 @@ Dersom brukeren ikke er innlogget i edoc-api, vil edoc-api sende brukeren til si
 
 ```javascript
 viewer.logIn({
-	securityLevel: 3,
-	returnUrl: "https://yoursite.com/yourPage"
+    securityLevel: 3,
+    returnUrl: "https://yoursite.com/yourPage"
 });
 ```
 
@@ -414,7 +414,7 @@ Dersom du ønsker å gjøre pålogging med feide, må du oppgi provider slik:
 
 ```javascript
 viewer.logIn({
-	provider: "feide"
+    provider: "feide"
 });
 ```
 
@@ -437,16 +437,16 @@ const user = await viewer.getAuthenticatedUser();
 Dersom brukeren er logget inn (i.e. har et gyldig JWT-token i en session cookie), vil promise-objktet resolve et JSON-objekt som ser slik ut:
 ```javascript
 {
-	"id": "<fødselsnummer>",
-	"securityLevel": 3,
-	"displayName": "Per Ove Olsen",
-	"firstName": "Per Ove",
-	"lastName": "Olsen",
-	"eMail": "per.ove@olsen.no",
-	"mobilePhone": "12312312",
-	"culture": "nb",
-	"idleTimeoutMinutes": 20,
-	"identityProvider": "MinID",
+    "id": "<fødselsnummer>",
+    "securityLevel": 3,
+    "displayName": "Per Ove Olsen",
+    "firstName": "Per Ove",
+    "lastName": "Olsen",
+    "eMail": "per.ove@olsen.no",
+    "mobilePhone": "12312312",
+    "culture": "nb",
+    "idleTimeoutMinutes": 20,
+    "identityProvider": "MinID",
 }
 ```
 

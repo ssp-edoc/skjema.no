@@ -354,12 +354,11 @@ viewer
         }        
     })
 ```
-Du kan også gjøre pålogging eksplisitt via viewer.js. viewer.js benytter edoc-api som backend. Edoc-api støtter pålogging med [ID-porten](http://eid.difi.no/nb/id-porten), [Feide](https://www.feide.no/) og AD. ID-porten og Feide er single-sign-on løsninger. Det betyr at dersom du allerede har en backend integrert mot eksempelvis ID-porten, vil en pålogging i din backend-løsning automatisk sørge for at brukeren er pålogget i edoc-api. Uavhengig av om du har en eksisterende backend integrert mot noen identity-providere, kan du benytte funksjonaliteten i viewer.js for å utføre operasjoner som innlogging, utlogging og uthenting av brukerinformasjon. 
-
+Du kan også gjøre pålogging eksplisitt via viewer.js. viewer.js benytter edoc-api som backend. Edoc-api støtter pålogging med [ID-porten](http://eid.difi.no/nb/id-porten), [Feide](https://www.feide.no/) og AD. ID-porten og Feide er single-sign-on løsninger. Det betyr at dersom du allerede har en backend integrert mot eksempelvis ID-porten, vil en pålogging i din backend-løsning automatisk sørge for at brukeren er pålogget i edoc-api. Du kan benytte funksjonaliteten i viewer.js for å utføre operasjoner som innlogging, utlogging og uthenting av brukerinformasjon uavhengig av om du har en eksisterende backend integrert mot noen identity-providere.
 
 Å være innlogget i edoc-api via en single-sign-on løsning innebærer to ting:
 1. Brukeren har fått utstedt et [JWT-token](https://jwt.io/) av edoc-api. Tokenet er levert som en session-cookie. Cookien er httpOnly og kan ikke leses av JavaScript. Cookien er secure og sendes bare over HTTPS. 
-2. Brukeren får fått utstedt en session-cookie av single-sign-on provideren (e.g. ID-porten). 
+2. Brukeren har fått utstedt en session-cookie av single-sign-on provideren (e.g. ID-porten). 
 
 Edoc-api er stateless. Det vedlikeholder ingen informasjon om brukerens pålogging. All nødvendig informasjon om brukerens identitet er lagret i JWT-tokenet. Tokenet inneholder en hash slik at informasjonen i tokenet ikke kan modifiseres. 
 

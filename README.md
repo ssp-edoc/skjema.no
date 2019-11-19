@@ -453,10 +453,12 @@ Dersom brukeren er logget inn (i.e. har et gyldig JWT-token i en session cookie)
 #### Logge ut bruker
 Du kan logge brukeren ut ved å kalle `viewer.logOut()`. 
 
+Edoc-api er som nevnt stateless. Det ligger ingen informasjon om brukerens pålogging på serveren. 
+
 En utlogging fra edoc-api innebærer følgende:
 1. Brukerens session cookie med JWT-token utstedt av edoc-api slettes. 
-2. Informasjon som er lagret i [sessionStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/sessionStorage) slettes. 
-3. Brukerens session cookie utsted av single-sign-on-provideren slettes. 
+2. Eventuell informasjon lagret av viewer.js i [sessionStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/sessionStorage) i nettleseren slettes. viewer.js bruker prefikset "___edoc:" på verdier den lagrer i sessionStorage.
+3. Brukerens session cookie utstedt av single-sign-on-provideren slettes. 
 4. Brukerens session cookie hos alle andre aktører brukeren har vært innom som en del av single-sign-on sesjonen slettes. 
 
 Argumentet til `viewer.logOut()` angir hvilken URL brukeren skal sendes til _etter_ at utlogging er fullført. Det er vanlig å vise en side som bekrefter at vedkommende er utlogget. Det er viktig at URL-en er absolutt (ikke relativ). Hvis du ikke oppgir noen URL, vil brukeren bli sendt til samme URL som kallet til `viewer.logOut()` ble gjort fra. Kallet til `viewer.logOut()` vil resultere i at brukeren blir videresendt til en annen URL via `window.location.href`. 

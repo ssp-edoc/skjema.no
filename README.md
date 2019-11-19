@@ -434,7 +434,7 @@ viewer.init({
 const user = await viewer.getAuthenticatedUser();
 ```
 
-Dersom brukeren er logget inn (i.e. har et gyldig JWT-token i en session cookie), vil promise-objktet resolve et JSON-objekt som ser slik ut:
+Dersom brukeren er logget inn (i.e. har et gyldig JWT-token i en session cookie), vil promise-objektet resolve et JSON-objekt som ser slik ut:
 ```javascript
 {
     "id": "<fødselsnummer>",

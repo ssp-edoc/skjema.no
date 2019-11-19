@@ -380,7 +380,7 @@ JWT-tokenet inneholder følgende informasjon om den påloggede brukeren, her rep
 }
 ```
 
-JWT-tokenet har en begrenset varighet og fornyes hver gang det gjøres et kall til edoc-api. Varigheten bestemmes av en innstilling i edoc-apiet og er per default 20 minutter. JWT tokenet sendes kun med til edoc-api-domenet den ble utstedet av. Edoc-api sender CORS-headere slik at kun kjente og godkjente domener får innhold fra edoc-api. 
+JWT-tokenet har begrenset varighet og fornyes hver gang det gjøres et kall til edoc-api. Varigheten bestemmes av en innstilling i edoc-apiet og er per default 20 minutter. JWT tokenet sendes kun med til edoc-api-domenet den ble utstedet av. Edoc-api sender CORS-headere slik at kun kjente og godkjente domener får innhold fra edoc-api. 
 
 Her kommer noen eksempler på hvordan du kan benytte single-sign-on funksjonaliteten i viewer.js og edoc-api:
 
@@ -419,9 +419,9 @@ viewer.logIn({
 ```
 
 #### Sjekke om bruker er pålogget, hente info om pålogget bruker 
-For å sjekke om bruker er pålogget og/eller hente info om pålogget bruker, kan du kalle `viewer.getAuthenticatedUser()`. Dette kallet sender JWT-token til edoc-api. Edoc-api parser ut informasjonen og sjekker at tokenet er gyldig og returnerer informasjonen i tokenet som et JSON-objekt. Dersom brukeren ikke er logget inn resolver promiset null. 
+For å sjekke om bruker er pålogget og/eller hente info om pålogget bruker, kan du kalle `viewer.getAuthenticatedUser()`. Dette kallet sender JWT-tokenet til edoc-api. Edoc-api vil validere tokenet og returnere informasjonen i tokenet som et JSON-objekt. 
 
-Merk at `viewer.getAuthenticatedUser()` er asynkron og returnerer et [Promise-objekt](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises). 
+Merk at `viewer.getAuthenticatedUser()` er asynkron og returnerer et [Promise-objekt](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises). Dersom brukeren ikke er logget inn resolver promiset null. Dersom brukeren er pålogget resolver promiset et JSON-objekt.
 
 Merk også at `viewer.getAuthenticatedUser()` kun indikerer om brukeren har en lokal pålogging hos edoc-api. Det vil si: det kan være at brukeren har en single-sign-on-session hos identity provider (e.g ID-porten) uten at brukeren har en lokal sesjon hos edoc-api. 
 

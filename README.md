@@ -469,7 +469,7 @@ viewer.init({
     customerId: "ummo"
 });
 
-const user = await viewer.logOut("https://yoursite.com/logoutConfirmation");
+viewer.logOut("https://yoursite.com/logoutConfirmation");
 ```
 
 Du kan gjøre kallet til `viewer.logOut()` selv om brukeren ikke er innlogget. 

@@ -336,7 +336,7 @@ viewer
 |idleTimeoutMinutes  |60|Nei, default er 20|Antall minutter med inaktivitet før skjemadata fjernes.|
 |warningTimeoutMinutes|5|Nei|Utfyller blir gitt en advarsel om at sesjonen vil tømmes dette antall minutter i forveien.|
 
-##### Brukerhåndtering
+### Brukerhåndtering
 Dersom utfyller ikke er pålogget, men gjør en handling i viewer.js som krever pålogging, vil edoc-api sende brukeren til en identity-provider for pålogging. Handlinger i viewer.js som krever pålogging er mellomlagring av utkast og gjenopptaking av utkast, samt oppstart av skjema der det er satt krav til sikkerhetsnivå. 
 
 Eksempelet nedenfor viser hvordan du kan få tak i informasjon om bruker som blir logget på av viewer.js:
@@ -355,17 +355,124 @@ viewer
     })
 ```
 
-Dersom du eksplisitt ønsker å logge en bruker inn via edoc-api, kan du kalle `viewer.logIn()`. Du vil motta eventet som vist ovenfor etter at pålogging er fullført. 
+viewer.js benytter edoc-api som backend. Edoc-api støtter pålogging med ID-porten, Feide og AD. ID-porten og Feide er single-sign-on løsninger. Det betyr at dersom du allerede har en backend integrert mot eksempelvis ID-porten, vil en pålogging i din backend-løsning automatisk sørge for at brukeren er pålogget i edoc-api. 
+
+viewer.js eksponerer single-sign-on funksjonalitet som er tilgjengelig via edoc-api. Uavhengig av om du har en eksisterende backend integrert mot noen identity-providere, kan du benytte denne funksjonaliteten for å utføre operasjoner som innlogging, utlogging og uthenting av brukerinformasjon. 
+
+Å være innlogget i edoc-api via en single-sign-on løsning innebærer to ting:
+1. Brukeren har fått utstedt en [JWT-token](https://jwt.io/) av edoc-api. Tokenet er levert som en session-cookie. Cookien er httpOnly og kan ikke leses av JavaScript. Cookien er secure og sendes bare over https. 
+2. Brukeren får fått utstedt en session-cookie av single-sign-on provideren (e.g. ID-porten). 
+
+Edoc-api er stateless. Det vedlikeholder ingen informasjon om brukerens pålogging. All nødvendig informasjon om brukerens identitet er lagret i JWT-tokenet. Tokenet inneholder en hash slik at informasjonen i tokenet ikke kan modifiseres. 
+
+En utlogging fra edoc-api innebærer følgende:
+1. Brukerens sesseion cookie med JWT-token utstedt av edoc-api slettes. 
+2. Brukerens session cookie utsted av single-sign-on-provideren slettes. 
+3. Brukerens session cookie hos alle andre aktører brukeren har vært innom som en del av single-sign-on sesjonen slettes. 
+
+JWT-tokenet inneholder følgende informasjon om den påloggede brukeren, her representert som et JSON objekt:
 
 ```javascript
-viewer.logIn();
+{
+	"id": "<fødselsnummer>",
+	"securityLevel": 3,
+	"displayName": "Per Ove Olsen",
+	"firstName": "Per Ove",
+	"lastName": "Olsen",
+	"eMail": "per.ove@olsen.no",
+	"mobilePhone": "12312312",
+	"culture": "nb",
+	"idleTimeoutMinutes": 20,
+	"identityProvider": "MinID",
+}
 ```
 
-For å logge bruker ut fra edoc-api, kaller du `viewer.logOut()` med retur-URL som argument til metoden. Det er viktig at retur-URL er absolutt (ikke relativ). Det er vanlig å sende brukeren til en side som bekrefter at vedkommende er utlogget.
+JWT-tokenet har en begrenset varighet og fornyes hver gang det gjøres et kall til edoc-api. Varigheten bestemmes av en innstilling i edoc-apiet og er per default 20 minutter. JWT tokenet sendes kun med til edoc-api-domenet den ble utstedet av. Edoc-api sender CORS-headere slik at kun kjente og godkjente domener får innhold fra edoc-api. 
+
+Her kommer noen eksempler på hvordan du kan benytte single-sign-on funksjonaliteten i viewer.js og edoc-api:
+
+#### Innlogging
+Etter å ha gjort viewer.init med apiUrl og customerId, kan du gjøre innlogging med kallet `viewer.logIn()`. SecurityLevel settes til 3 eller 4, avhengig av hvilket [sikkerhetsnivå](http://eid.difi.no/nb/sikkerhet-og-informasjonskapsler/ulike-sikkerhetsniva) du krever at brukeren logger seg inn med. Kallet til `viewer.logIn()` vil resultere i at brukeren blir videresendt til en annen URL via `window.location.href`.
 
 ```javascript
-viewer.logOut('https://yourhost/logoutConfirmation.html'); //replace with URL of you choice, the URL must be ABSOLUTE!
+viewer.init({
+    apiUrl: "https://api.preprod.skjema.no",
+    customerId: "ummo"
+});
+
+viewer.logIn({
+	securityLevel: 3,
+	returnUrl: "https://yoursite.com/yourLandingPage"
+});
 ```
+
+Dersom brukeren ikke er innlogget i edoc-api, vil edoc-api sende brukeren til single-sign-on provider (e.g. ID-porten). Dersom brukeren er innlogget hos single-sign-on-provider, vil brukeren bli sendt tilbake til edoc-api med informasjon om pålogget bruker. Edoc-api vil utstede JWT-token i session cookie og sende brukeren tilbake til den URL-en `viewer.logIn()`-kallet ble gjort fra. Dersom du ønsker at bruker skal bli sendt til en annen URL etter pålogging, kan dette spesifiseres slik:
+
+```javascript
+viewer.logIn({
+	securityLevel: 3,
+	returnUrl: "https://yoursite.com/yourPage"
+});
+```
+
+Det er viktig at returnUrl er absolutt (ikke relativ). 
+
+Dersom du ønsker å gjøre pålogging med feide, må du oppgi provider slik:
+
+```javascript
+viewer.logIn({
+	provider: "feide"
+});
+```
+
+#### Sjekke om bruker er pålogget, hente info om pålogget bruker 
+For å sjekke om bruker er pålogget og/eller hente info om pålogget bruker, kan du kalle `viewer.getAuthenticatedUser()`. Dette kallet sender JWT-token til edoc-api. Edoc-api parser ut informasjonen og sjekker at tokenet er gyldig og returnerer informasjonen i tokenet som et JSON-objekt. Dersom brukeren ikke er logget inn resolver promiset null. 
+
+Merk at `viewer.getAuthenticatedUser()` er asynkron og returnerer et [Promise-objekt](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises). 
+
+Merk også at `viewer.getAuthenticatedUser()` kun indikerer om brukeren har en lokal pålogging hos edoc-api. Det vil si: det kan være at brukeren har en single-sign-on-session hos identity provider (e.g ID-porten) uten at brukeren har en lokal sesjon hos edoc-api. 
+
+```javascript
+viewer.init({
+    apiUrl: "https://api.preprod.skjema.no",
+    customerId: "ummo"
+});
+
+const user = await viewer.getAuthenticatedUser();
+```
+
+Dersom brukeren er logget inn (i.e. har et gyldig JWT-token i en session cookie), vil promise-objktet resolve et JSON-objekt som ser slik ut:
+```javascript
+{
+	"id": "<fødselsnummer>",
+	"securityLevel": 3,
+	"displayName": "Per Ove Olsen",
+	"firstName": "Per Ove",
+	"lastName": "Olsen",
+	"eMail": "per.ove@olsen.no",
+	"mobilePhone": "12312312",
+	"culture": "nb",
+	"idleTimeoutMinutes": 20,
+	"identityProvider": "MinID",
+}
+```
+
+#### Logge ut bruker
+Du kan logge brukeren ut ved å kalle `viewer.logOut()`. En utlogging av bruker fjerner en eventuell lokal session cookie satt av edoc-api. Edoc-api initierer også single-sign-out hos identity provider slik at brukeren bli logget ut i alle andre løsninger vedkommende har en sesjon. I tillegg fjerner viewer.js informasjon som er lagret i [sessionStorage](https://developer.mozilla.org/en-US/docs/Web/API/Window/sessionStorage). 
+
+Argumentet til `viewer.logOut()` angir hvilken URL brukeren skal sendes til _etter_ at utlogging er fullført. Det er vanlig å vise en side som bekrefter at vedkommende er utlogget. Det er viktig at URL-en er absolutt (ikke relativ). Hvis du ikke oppgir noen URL, vil brukeren bli sendt til samme URL som kallet til `viewer.logOut()` ble gjort fra. Kallet til `viewer.logOut()` vil resultere i at brukeren blir videresendt til en annen URL via `window.location.href`. 
+
+```javascript
+viewer.init({
+    apiUrl: "https://api.preprod.skjema.no",
+    customerId: "ummo"
+});
+
+const user = await viewer.logOut("https://yoursite.com/logoutConfirmation");
+```
+
+Du kan gjøre kallet til `viewer.logOut()` selv om brukeren ikke er innlogget. 
+
 
 ### `getForms()`
 `viewer.getForms()` returnerer tilgjengelige skjema for kunden. Eksempelet nedenfor viser hvordan skjema kan hentes og listes ut på en HTML-side.

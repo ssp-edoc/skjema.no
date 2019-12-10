@@ -101,6 +101,7 @@ viewer
         formId: "<id til skjema som skal vises eller function() som returnerer denne>",
         refId: "<id til mellomlagret utkast som skal vises eller function() som returnerer denne>",
         previewId: "<id til forhåndsvisning eller function() som returnerer denne>",
+        initialData: <JSON-objekt med skjemadata>,
         onAborting: function(proceed) {},
         onAborted: function() {},
         onSaving: function(proceed) {},
@@ -149,6 +150,36 @@ viewer
 ```
 
 Merk at viewer.js vil hive en exception dersom mer enn én av `formId`, `refId` eller `previewId` er satt. 
+
+##### Angi skjema-data
+Dersom det er ønskelig at skjemaet starter opp med initielle-data, kan disse oppgis i `initialData` som et JSON-objekt som vist nedenfor. Her referer egenskapene `firstname` og `lastname` til felt-navn i skjemaet. Du vil finne disse felt-navnene ved å se på JSON-skjema-definisjonen, eller ved å se på navn-egenskapen til feltet i edoc-designer. Navnet er case-sensitivt. 
+
+Dersom det er radio/avkryssning/nedtrekk som skal settes, må valgets navn oppgis. 
+
+Dersom det er rader i et repeterende panel eller en dynamisk tabell som skal settes, må disse oppgis som et JSON-array med et objekt for hver rad. 
+
+```javascript
+viewer
+    .init({...})
+    .form({
+        formId: "701660",
+		initialData: {
+			firsname: "John",
+			lastname: "Doe",
+			gender: "M",
+			children: [
+				{
+					firstname: "Lisa",
+					lastname: "Doe",
+				},
+				{
+					firstname: "Jane",
+					lastname: "Doe",
+				},				
+			]
+		}
+    });
+```
 
 ##### Event-handling
 Når et skjema er startet, kan utfyller avbryte, lagre eller sende inn skjemaet. viewer.js tilbyr event-handlere som gjør det mulig å hooke seg på disse hendelsene.

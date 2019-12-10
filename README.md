@@ -170,12 +170,12 @@ viewer
             children: [
                 {
                     firstname: "Lisa",
-                    lastname: "Doe",
+                    lastname: "Doe"
                 },
                 {
                     firstname: "Jane",
-                    lastname: "Doe",
-                },
+                    lastname: "Doe"
+                }
             ]
         }
     });

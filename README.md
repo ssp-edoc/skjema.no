@@ -80,6 +80,8 @@ viewer.init({
 |customerId|9998|Ja|Kunde-id|
 |hide.title|true|Nei|Oppgi true dersom det er ønskelig å skjule tittel|
 |hide.buttons|true|Nei|Oppgi true dersom det er ønskelig å skjule knappene for "avbryt", "lagre" og til "kontroll"|
+|hide.save|true|Nei|Oppgi true dersom det er ønskelig å skjule "lagre"-knappen.|
+|hide.abort|true|Nei|Oppgi true dersom det er ønskelig å skjule "avbryt"-knappen.|
 
 ### `form()`
 

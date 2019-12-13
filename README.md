@@ -558,7 +558,10 @@ Du kan gjøre kallet til `viewer.logOut()` selv om brukeren ikke er innlogget.
 
 ### `getCases()` og `deleteCase()`
 
-`viewer.getCases()` returnerer mellomlagrede utkast for en utfyller. Eksempelet nedenfor viser hvordan utkast kan hentes og listes ut på en HTML-side. Eksempelet viser også hvordan utkastene kan slettes via `viewer.deleteCase()`.
+`viewer.getCases()` returnerer mellomlagrede utkast og innsendte saker for en utfyller. Eksemplet nedenfor viser hvordan utkast og innsendte saker kan hentes og listes ut på en HTML-side. Eksempelet viser også hvordan 
+1. utkastene/sakene kan slettes via `viewer.deleteCase()`. Sletting av et en innsendt sak fjernet bare saken fra brukerens liste, de underliggende dataene blir ikke slettet. Sletting av et utkast fjerner alle opplysninger om utkastet fra systemet. 
+2. utkastene kan gjenopptas ved å videresende bruker til en side som laster viewer.js
+3. PDF for innsendte saker kan lastes ned via `viewer.getPdf(refId)`. PDF-en genereres on the fly av edoc-api.
 
 ```html
 <!DOCTYPE html>
@@ -579,6 +582,11 @@ Du kan gjøre kallet til `viewer.logOut()` selv om brukeren ikke er innlogget.
                         const caseLink = document.createElement("a");
                         if(isSaved) {
                             caseLink.setAttribute("href", `form.html?refId=${c.refId}`);
+                        } else { //isSubmitted
+                            caseLink.setAttribute("href", "#");
+                            caseLink.onclick = function(event) {
+                                viewer.getPdf(c.refId);
+                            };
                         }
                         caseLink.text = `${c.name}`;
                         fragment.appendChild(caseLink);

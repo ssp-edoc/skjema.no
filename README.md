@@ -559,9 +559,9 @@ Du kan gjøre kallet til `viewer.logOut()` selv om brukeren ikke er innlogget.
 ### `getCases()`, `getPdf()` og `deleteCase()`
 
 `viewer.getCases()` returnerer mellomlagrede utkast og innsendte saker for en utfyller. Eksemplet nedenfor viser hvordan utkast og innsendte saker kan hentes og listes ut på en HTML-side. Eksemplet viser også hvordan 
-1. utkastene/sakene kan slettes via `viewer.deleteCase()`. Sletting av en innsendt sak fjerner bare saken fra brukerens liste. Sletting av et utkast fjerner alle data knyttet til utkastet fra systemet. 
+1. utkastene/sakene kan slettes via `viewer.deleteCase()`. Sletting av en innsendt sak fjerner bare saken fra brukerens liste. Sletting av et utkast fjerner alle data knyttet til utkastet fra systemet. Edoc-api sjekker at innlogget bruker har rettighet på saken/utkastet som blir forsøkt slettet.
 2. utkastene kan gjenopptas ved å videresende bruker til en side som laster viewer.js
-3. PDF for innsendte saker kan lastes ned via `viewer.getPdf(refId)`. PDF-en genereres on the fly av edoc-api.
+3. PDF for innsendte saker kan lastes ned via `viewer.getPdf(refId)`. PDF-en genereres on the fly av edoc-api. Edoc-api sjekker at innlogget bruker har rettighet på saken det blir forsøkt lastet ned PDF for. 
 
 ```html
 <!DOCTYPE html>

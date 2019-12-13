@@ -556,7 +556,7 @@ Du kan gjøre kallet til `viewer.logOut()` selv om brukeren ikke er innlogget.
 </html>
 ```
 
-### `getCases()` og `deleteCase()`
+### `getCases()`, `getPdf()` og `deleteCase()`
 
 `viewer.getCases()` returnerer mellomlagrede utkast og innsendte saker for en utfyller. Eksemplet nedenfor viser hvordan utkast og innsendte saker kan hentes og listes ut på en HTML-side. Eksempelet viser også hvordan 
 1. utkastene/sakene kan slettes via `viewer.deleteCase()`. Sletting av et en innsendt sak fjernet bare saken fra brukerens liste, de underliggende dataene blir ikke slettet. Sletting av et utkast fjerner alle opplysninger om utkastet fra systemet. 

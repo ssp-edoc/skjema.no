@@ -153,7 +153,7 @@ viewer
 
 Merk at viewer.js vil hive en exception dersom mer enn én av `formId`, `refId` eller `previewId` er satt. 
 
-##### Angi skjema-data
+##### Angi skjema-data ved oppstart; preutfylling, forhåndsutfylling
 Dersom det er ønskelig at skjemaet starter opp med initielle-data, kan disse oppgis i `initialData` som et JSON-objekt som vist nedenfor. Her refererer egenskapene `firstname` og `lastname` til felt-navn i skjemaet. Du vil finne disse felt-navnene ved å se på JSON-skjema-definisjonen, eller ved å se på navn-egenskapen til feltet i edoc-designer. Navnet er case-sensitivt. Det er kun mulig å laste verdier inn i felt som brukeren selv har mulighet til å redigere, det vil si felt som er er både synlige og redigerbare. Edoc-api vil ikke laste verdier inn i felt som er skjulte og/eller låste for utfyller. 
 
 Dersom det er radio/avkryssning/nedtrekk som skal settes, må valgets navn oppgis. 

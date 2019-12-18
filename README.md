@@ -213,7 +213,14 @@ viewer
 ```
 
 ###### `onAborting`
-`onAborting` blir kalt når utfyller trykker avbryt og før selve avbrytelsen blir utført. Det er valgfritt å registrere en eventhandler til dette eventet. Du kan bruke eventet til å vise en "vil du virkelig avbryte"-dialog. Dersom utfyller bekrefter avbryting, kaller du `proceed()` eller `proceed(true)`. Dersom utfyller ikke ønsker å avbryte, kaller du `proceed(false)`. 
+`onAborting` blir kalt når utfyller trykker avbryt og før selve avbrytelsen blir utført. Det er valgfritt å registrere en eventhandler til dette eventet. Du registrerer en eventhandler til dette eventet dersom du ønsker å gi bruker mulighet til å (1) kansellere avbrytelsen og/eller (2) mellomlagre et utkast av skjemaet som en del av avbrytelsen. Dersom du IKKE registrerer noen eventhandler til dette eventet, vil utfyllingen avbrytes uten at det opprettes noe mellomlagret utkast. 
+
+Det er tre ulike ting du kan gjøre i onAborting-eventet:
+1. Gjennomføre avbrytelsen og lagre utkastet - kall `proceed(true)`
+2. Gjennomføre avbrytelsen og IKKE lagre utkastet - kall `proceed(false)`
+3. Kanselere avbrytelsen (i.e. la brukeren fortsette utfyllingen) - IKKE kall `proceed`.
+
+Du kan bruke eventet til å vise en "vil du virkelig avbryte"-dialog eller en "ønsker du å lagre et utkast før du avbryter"-dialog. Dersom utfyller bekrefter avbryting, kaller du `proceed()` med true eller false avhengig av om utkastet skal lagres (true) eller ikke (false). Dersom utfyller ikke ønsker å avbryte, kaller du IKKE `proceed`. 
 
 Eksempelet nedenfor tar utgangspunkt i at du har laget en funksjon `showAbortDialog()` som viser et bekreftelses-vindu. Avhengig av om utfyller klikker ja eller nei, kalles `proceed()` med true eller false.
 
@@ -226,18 +233,21 @@ viewer
             showAbortConfirmationDialog() //må implementeres av deg
                 .on("click", "#yes",
                     function() {
-                        proceed(true);
+                        proceed(true); //utfylling avbrytes, det lagres et utkast
                     })
                 .on("click", "#no",
                     function() {
-                        proceed(false);
-                    });            
+                        proceed(false); //utfylling avbrytes, det lagres IKKE et utkast
+                    });
+            //dersom showAbortConfirmationDialog ikke fyrer eventet .on("click"), blir ikke skjemaet avbrutt.
         },        
     });
 ```
 
 ###### `onAborted`
-`onAborted` blir kalt etter at avbrytelsen er fullført. Her har du eksempelvis mulighet for å laste en ny URL i nettleseren.  
+`onAborted` blir kalt etter at avbrytelsen er fullført. Eventet blir kalt når bruker har trykket "avbryt" i skjemaet dersom (1) du ikke har noen eventhanler på `onAborting`-eventet, eller dersom (2) du har en eventhandler på `onAborting`-eventet og kalte `proceed(true/false)` i det eventet. 
+
+I `onAborted` vil du angi hva som skal skje etter at skjemaet er avbrutt, eksempelvis laste en ny side:  
 
 ```javascript
 viewer

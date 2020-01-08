@@ -203,9 +203,12 @@ viewer
 
 Koden nedenfor viser hvordan JWT-tokenet kan generes via C#-kode i .NET. Du trenger i dette tilfellet nuget-pakkene "Microsoft.IdentityModel.JsonWebTokens", "Microsoft.IdentityModel.Logging" og "Microsoft.IdentityModel.Tokens".
 
-Det er tre verdier som må avtales med den som konfigurerer edoc-api: sha256key, audience (aud) og issuer (iss).
+Det er tre verdier som må avtales med den som konfigurerer edoc-api: 
+1. sha256key
+2. audience (aud)
+3. issuer (iss)
 
-Audience og issuer kan bestemme, som utgangspunkt kan "skjema.no" benyttes som audience og noe som identifiserer kunden kan benyttes som issuer. Disse tre verdiene må legges inn i edoc-api (web.config) slik at edoc-api kan validere tokenet.
+"skjema.no" kan benyttes som audience og et navn som identifiserer kunden kan benyttes som issuer. Disse tre verdiene må legges inn i edoc-api (web.config) slik at edoc-api kan validere tokenet.
 
 sha256key kan genereres via powershell slik:
 ```

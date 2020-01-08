@@ -154,7 +154,11 @@ viewer
 Merk at viewer.js vil hive en exception dersom mer enn én av `formId`, `refId` eller `previewId` er satt. 
 
 ##### Angi skjema-data ved oppstart; preutfylling, forhåndsutfylling
-Dersom det er ønskelig at skjemaet starter opp med initielle-data, kan disse oppgis i `initialData` som et JSON-objekt som vist nedenfor. Her refererer egenskapene `firstname` og `lastname` til felt-navn i skjemaet. Du vil finne disse felt-navnene ved å se på JSON-skjema-definisjonen, eller ved å se på navn-egenskapen til feltet i edoc-designer. Navnet er case-sensitivt. Det er kun mulig å laste verdier inn i felt som brukeren selv har mulighet til å redigere, det vil si felt som er er både synlige og redigerbare. Edoc-api vil ikke laste verdier inn i felt som er skjulte og/eller låste for utfyller. 
+Dersom det er ønskelig at skjemaet starter opp med initielle-data, kan disse oppgis i `initialData`. 
+
+Dersom det kun skal preutfylles verdier i felt som er både synlige og redigerbare, kan preutfyllingsdataene oppgis i klartekst som et JSON-objekt som vist nedenfor. Dersom det skal preutfylles verdier i felt som er skjulte eller låste (i.e. disabled/ikke-redigerbare), må JSON-objektet innkapsles i et JWT-token. Eksempel på server-side generering av JWT-token, samt sending av JWT-token er vist under eksempelet med klartekst JSON. 
+
+I JSON-objektet refererer egenskapene `firstname` og `lastname` til felt-navn i skjemaet. Du vil finne disse felt-navnene ved å se på JSON-skjema-definisjonen, eller ved å se på navn-egenskapen til feltet i edoc-designer. Navnet er case-sensitivt. Det er kun mulig å laste verdier inn i felt som brukeren selv har mulighet til å redigere, det vil si felt som er er både synlige og redigerbare. Edoc-api vil ikke laste verdier inn i felt som er skjulte og/eller låste for utfyller. 
 
 Dersom det er radio/avkryssning/nedtrekk som skal settes, må valgets navn oppgis. 
 
@@ -181,6 +185,61 @@ viewer
             ]
         }
     });
+```
+
+Som nevnt ovenfor, må JSON-objektet innkapsles i et JWT-token dersom det skal preutfylles verdier i skjulte eller låste felt. JWT-tokenet gjør det mulig å verifisere integriteten til preutfyllingsdataene. Hensikten er å forhindre at sluttbruker endrer verdiene som skal preutfylles. Husk at verdiene du legger i JWT-tokenet ikke er kryptert og kan leses av sluttbruker. Legg derfor aldri sensitiv informasjon som sluttbrukeren ikke skal se i JWT-tokenet. 
+
+Eksempelet nedenfor viser hvordan JWT-tokenet fortsatt sendes med i egenskapen "initialData". JSON-objektet er ikke i klartekst lenger, men pakket inn i et JWT-token som inneholder alle opplysningene, samt en hash av disse. 
+
+```javascript
+viewer
+    .init({...})
+    .form({
+        formId: "701660",
+        initialData: "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJza2plbWEubm8iLCJpc3MiOiJrcmlzdGlhbnNhbmQiLCJkYXRhIjp7InN5bmxpZyI6ImphIiwiZGlzYWJsZWQiOiJuZWkifSwiZXhwIjoxNTc4NTE4NjgxLjAsImlhdCI6MTU3ODUxNTA4MSwibmJmIjoxNTc4NTE1MDgxfQ.r_2wP2xln5SZGSR1NCb5NFfcjYPRkqCSWjmfLuSSxWo",
+		...
+    });
+```
+
+Koden nedenfor viser hvordan JWT-tokenet kan generes via C#-kode i .NET. Du trenger i dette tilfellet nuget-pakkene "Microsoft.IdentityModel.JsonWebTokens", "Microsoft.IdentityModel.Logging" og "Microsoft.IdentityModel.Tokens".
+
+Det er tre verdier som må avtales med den som konfigurerer edoc-api: sha256key, audience (aud) og issuer (iss).
+
+Audience og issuer kan bestemme, som utgangspunkt kan "skjema.no" benyttes som audience og noe som identifiserer kunden kan benyttes som issuer. Disse tre verdiene må legges inn i edoc-api (web.config) slik at edoc-api kan validere tokenet.
+
+sha256key kan genereres via powershell slik:
+```
+PS > New-Object System.Security.Cryptography.HMACSHA256 > [Convert]::ToBase64String($hmac.Key)
+PS > [Convert]::ToBase64String($hmac.Key)
+```
+
+Dataene som skal preutfylles må ligge som et objekt med property-navn "data", som vist i eksempelet nedenfor. Strukturen i objektet følger samme konvensjon som når JSON-objektet sendes i klartekst, som vist ovenfor. 
+
+```cs
+using System;
+using Microsoft.IdentityModel.JsonWebTokens;
+using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+
+...
+
+var sha256key = "Df7PtmoEI45IR2FPi+vmm1Y/eXGWf9r9vhoC6puXro0ggDk7i2BYSoqlbGiVOlcrQ85IBgssLbVp65X5dvVzjw==";
+
+var credentials = new SigningCredentials(new SymmetricSecurityKey(Convert.FromBase64String(sha256key)), SecurityAlgorithms.HmacSha256Signature);
+
+var json = new JObject(
+    new JProperty("aud", "skjema.no"),
+    new JProperty("iss", "your-customer-name"),
+    new JProperty("data",
+        new JObject(
+            new JProperty("firstname", "John"),
+            new JProperty("lastname", "Doe")
+        )
+    )
+);
+
+var token = new JsonWebTokenHandler().CreateToken(json.ToString(Formatting.None), credentials);
 ```
 
 ##### Event-handling

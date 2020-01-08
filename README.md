@@ -156,9 +156,9 @@ Merk at viewer.js vil hive en exception dersom mer enn én av `formId`, `refId` 
 ##### Angi skjema-data ved oppstart; preutfylling, forhåndsutfylling
 Dersom det er ønskelig at skjemaet starter opp med initielle-data, kan disse oppgis i `initialData`. 
 
-Dersom det kun skal preutfylles verdier i felt som er både synlige og redigerbare, kan preutfyllingsdataene oppgis i klartekst som et JSON-objekt som vist nedenfor. Dersom det skal preutfylles verdier i felt som er skjulte eller låste (i.e. disabled/ikke-redigerbare), må JSON-objektet innkapsles i et JWT-token. Eksempel på server-side generering av JWT-token, samt sending av JWT-token er vist under eksempelet med klartekst JSON. 
+Dersom det kun skal preutfylles verdier i felt som er både synlige og redigerbare, kan preutfyllingsdataene oppgis i klartekst som et JSON-objekt som vist nedenfor. Dersom det skal preutfylles verdier i felt som er _skjulte eller låste_ (i.e. disabled/ikke-redigerbare), må JSON-objektet innkapsles i et JWT-token. Eksempel på server-side generering av JWT-token, samt sending av JWT-token er vist under eksempelet med klartekst-JSON. 
 
-I JSON-objektet refererer egenskapene `firstname` og `lastname` til felt-navn i skjemaet. Du vil finne disse felt-navnene ved å se på JSON-skjema-definisjonen, eller ved å se på navn-egenskapen til feltet i edoc-designer. Navnet er case-sensitivt. Det er kun mulig å laste verdier inn i felt som brukeren selv har mulighet til å redigere, det vil si felt som er er både synlige og redigerbare. Edoc-api vil ikke laste verdier inn i felt som er skjulte og/eller låste for utfyller. 
+I JSON-eksempelet nedenfor refererer egenskapene `firstname` og `lastname` til felt-navn i et skjema. For å finne felt-navnene som gjelder i skjemaet du skal preutfylle, kan du se på JSON-skjema-definisjonen, eller se på navn-egenskapen til feltet i edoc-designer. Navnet er case-sensitivt. Dersom du sender med JSON-objektet i klartekst slik, vil edoc-api kun laste verdier inn i felt som er synlige og redigerbare.  
 
 Dersom det er radio/avkryssning/nedtrekk som skal settes, må valgets navn oppgis. 
 

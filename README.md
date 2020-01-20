@@ -459,6 +459,23 @@ viewer
         }        
     })
 ```
+
+Du kan overstyre logikken som skal utføres når det kreves pålogging. Dette kan du gjøre dersom du ønsker å gjøre noe _før_ brukeren blir sendt til identity-provider. Dette kan eksempelvis være å vise brukeren et varsel om at han/hun vil bli videresendt for pålogging, eller be brukeren samtykke til behandling av personopplysninger.
+
+```javascript
+viewer
+    .init({...})
+    .form({
+        ...
+        onAuthenticationRequired: (info) => {
+			//info inneholder info om krav til pålogging satt i edoc-admin
+			let requiredSecuritylevel = info.requiredSecurityLevel;
+			
+			//TODO: gjør ønsket handling i forbindelse med pålogging. Videresend bruker til pålogging, sørg for at bruker blir sendt tilbake til denne siden etter pålogging. 
+        }        
+    })
+```
+
 Du kan også gjøre pålogging eksplisitt via viewer.js. viewer.js benytter edoc-api som backend. Edoc-api støtter pålogging med [ID-porten](http://eid.difi.no/nb/id-porten), [Feide](https://www.feide.no/) og AD. ID-porten og Feide er single-sign-on løsninger. Det betyr at dersom du allerede har en backend integrert mot eksempelvis ID-porten, vil en pålogging i din backend-løsning automatisk sørge for at brukeren er pålogget i edoc-api. Du kan benytte funksjonaliteten i viewer.js for å utføre operasjoner som innlogging, utlogging og uthenting av brukerinformasjon uavhengig av om du har en eksisterende backend integrert mot noen identity-providere.
 
 Å være innlogget i edoc-api via en single-sign-on løsning innebærer to ting:

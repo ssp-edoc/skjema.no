@@ -460,7 +460,7 @@ viewer
     })
 ```
 
-Du kan overstyre logikken som skal utføres når det kreves pålogging. Dette kan du gjøre dersom du ønsker å gjøre noe _før_ brukeren blir sendt til identity-provider. Dette kan eksempelvis være å vise brukeren et varsel om at han/hun vil bli videresendt for pålogging, eller be brukeren samtykke til behandling av personopplysninger.
+Du kan overstyre logikken som skal utføres når det kreves pålogging. Dette kan du gjøre dersom du ønsker å gjøre noe _før_ brukeren blir sendt til identity-provider. Dette kan eksempelvis være å vise brukeren et varsel om at han/hun vil bli videresendt for pålogging, eller be brukeren samtykke til behandling av personopplysninger. Dersom du registrerer deg på dette eventet, er du også ansvarlig for å sende brukeren til pålogging. Du kan gjøre dette ved å kalle `viewer.login()` eller `viewer.getLoginUrl()`. Forskjellen på de to metodene er at førstnevnte setter `document.location` til en URL, mens sistnevnte returnerer en URL som du eventuelt kan manipulere, og du må selv sette `document.location`. Begge metodene tar et objekt med egenskapene `securityLevel` (3/4) og `returnUrl`. `returnUrl` er valgfritt, hvis den ikke sendes med benyttes `document.location` som verdi. 
 
 ```javascript
 viewer
@@ -472,6 +472,10 @@ viewer
 			let requiredSecuritylevel = info.requiredSecurityLevel;
 			
 			//TODO: gjør ønsket handling i forbindelse med pålogging. Videresend bruker til pålogging, sørg for at bruker blir sendt tilbake til denne siden etter pålogging. 
+			
+			//viewer.logIn({securityLevel: info.requiredSecurityLevel, returnUrl: 'valgfritt'});
+			//eller
+			//document.location = viewer.getLoginUrl({securityLevel: info.requiredSecurityLevel, returnUrl: 'valgfritt'}):
         }        
     })
 ```

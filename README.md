@@ -11,6 +11,13 @@ Opprett filen .npmrc i prosjektet ditt, hvis denne ikke allerede finnes. Koden d
 @prokom:registry=https://prokom.myget.org/F/skjema/auth/<accessKey>/npm/
 ```
 
+Kjør deretter følgende kommando:
+```
+npm install @prokom/edoc-viewer
+```
+
+Du vil nå finne filene under `Node_modules/edoc-viewer/prod/*`.
+
 Dersom du ønsker å benytte samme stilsett som på skjema.no, kan du legge inn styles.css i head taggen.
 
 ```html

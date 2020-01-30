@@ -16,14 +16,13 @@ Kjør deretter følgende kommando:
 npm install @prokom/edoc-viewer
 ```
 
-Du vil nå finne filene under `Node_modules/edoc-viewer/prod/*`.
+Du vil nå finne filene under `node_modules/edoc-viewer/prod/*`.
 
-Dersom du ønsker å benytte samme stilsett som på skjema.no, kan du legge inn styles.css i head taggen.
-
+Dersom du ønsker å benytte samme stilsett som på skjema.no, kan du linke til CSS filen `node_modules/edoc-viewer/prod/viewer.min.css` slik:
 ```html
     <head>
         ...
-        <link rel='stylesheet' href='styles.css' type='text/css'  />
+        <link rel='stylesheet' href='viewer.min.css' type='text/css'  />
     </head>
 ```
 

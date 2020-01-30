@@ -1,15 +1,14 @@
-# viewer.js
+# edoc-viewer
 
-Pakken inneholder koden for viewer.js.
+Pakken inneholder koden for edoc-viewer.
 
 ## Installasjon
 
-Legg inn viewer.min.js nederst på HTML siden før body slutt tag.
-```html
-    <body>
-        ...
-        <script src="viewer.min.js"></script>
-    </body>
+Be om å få en accessKey til edoc-viewer fra support@prokom.no.
+
+Opprett filen .npmrc i prosjektet ditt, hvis denne ikke allerede finnes. Koden du får fra support@prokom.no skal legges inn i .npmrc filen slik:
+```
+@prokom:registry=https://prokom.myget.org/F/skjema/auth/<accessKey>/npm/
 ```
 
 Dersom du ønsker å benytte samme stilsett som på skjema.no, kan du legge inn styles.css i head taggen.

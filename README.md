@@ -87,6 +87,7 @@ viewer.init({
 |hide.buttons|true|Nei|Oppgi true dersom det er ønskelig å skjule knappene for "avbryt", "lagre" og til "kontroll"|
 |hide.save|true|Nei|Oppgi true dersom det er ønskelig å skjule "lagre"-knappen.|
 |hide.abort|true|Nei|Oppgi true dersom det er ønskelig å skjule "avbryt"-knappen.|
+|hide.summary|true|Nei|Oppgi true dersom det er ønskelig å skjule kontrollsiden.|
 
 ### `form()`
 

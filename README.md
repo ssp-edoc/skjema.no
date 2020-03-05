@@ -18,12 +18,21 @@ npm install @prokom/edoc-viewer
 
 Du vil nå finne filene under `node_modules/edoc-viewer/prod/*`.
 
+Dersom du skal benytte viewer.js direkte på en HTML-side, kan du importere `node_modules/edoc-viewer/prod/viewer.min.js` slik:
+```html
+    <head>
+        ...
+        <script src='viewer.min.js'></script>
+        ...		
+    </head>
+```
+
 Dersom du ønsker å benytte samme stilsett som på skjema.no, kan du linke til CSS filen `node_modules/edoc-viewer/prod/viewer.min.css` slik:
 ```html
     <head>
         ...
         <link rel='stylesheet' href='viewer.min.css' type='text/css'  />
-        <script src='viewer.min.js'></script>
+        ...
     </head>
 ```
 

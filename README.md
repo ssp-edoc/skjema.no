@@ -23,6 +23,7 @@ Dersom du ønsker å benytte samme stilsett som på skjema.no, kan du linke til 
     <head>
         ...
         <link rel='stylesheet' href='viewer.min.css' type='text/css'  />
+		<script src='viewer.min.js'></script>
     </head>
 ```
 
@@ -822,5 +823,5 @@ Alle viewer metoder som gjør et kall til edoc-api returnerer et `Promise`-objek
 
 ### Styles
 
-- Bootstrap 3.3.7
+- Bootstrap 4+
 - Budicons

@@ -80,6 +80,7 @@ viewer.init({...})
 
 ```javascript
 viewer.init({
+    expand: "none",
     apiUrl : "<api url>",
     customerId: "<customer id>",
     hide : {
@@ -93,6 +94,7 @@ viewer.init({
 |--------|--------|------------|-----------|
 |apiUrl  |https://api.skjema.no|Ja|Url til API-et|
 |customerId|9998|Ja|Kunde-id|
+|expand|"first" eller "none"|Nei|Oppgi dersom det er ønskelig å skjule eller ekspandere side ved oppstart|
 |hide.title|true|Nei|Oppgi true dersom det er ønskelig å skjule tittel|
 |hide.buttons|true|Nei|Oppgi true dersom det er ønskelig å skjule knappene for "avbryt", "lagre" og til "kontroll"|
 |hide.save|true|Nei|Oppgi true dersom det er ønskelig å skjule "lagre"-knappen.|

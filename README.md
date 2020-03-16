@@ -389,6 +389,20 @@ viewer
     });
 ```
 
+###### `onStarted`
+`onStarted` blir kalt _etter_ at viewer har lastet all nødvendig informasjon for å starte opp et skjema, enten det er et nytt skjema eller gjenopptaking av eksisterende skjema. Eventet kan benyttes til å eksempelvis å sjekke data i skjemaet (template), modellen (model) eller i info om kunden (customer). 
+
+```javascript
+viewer
+    .init({...})
+    .form({
+        ...
+        onStarted: function({template, model, customer}) {
+            //do something useful with info from template/model/customer
+        },        
+    });
+```
+
 
 ### `getCaseInfo()` - uthenting av info for kvittering
 Etter innsending av skjema er det vanlig å vise en side som viser skjemaets navn, tidspunkt for innsendelse og referanse id. Denne informasjonen hentes via kall til `viewer.getCaseInfo(refId)`. `refId` får du fra `onSubmitted()`-eventet når skjemaet sendes inn. 

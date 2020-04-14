@@ -27,7 +27,7 @@ Gitt at du har en nøkkel og info om en bruker, kan du nå generere et JWT token
 ```
 var secretKey = "HEktn2swBv02pLmZEEL1cMtnie2QCReebAWwXmWFa8vPXkeD2vIRXwqXY7brJ6gz/PCXnPR2Pg48Co0L+pSBIw==";
 
-var tokenString = JwtToken.CreateUserToken(
+var tokenString = eDocument.Core.Web.JwtToken.CreateUserToken(
     friendlyUsername: "Ole Olsen",
     actualUniqueUsername: "DA0BFF42-3EAD-41F2-BBF9-97F53BB2B09E",
     idleTimeoutMinutes: 20,
@@ -40,7 +40,8 @@ Console.WriteLine(tokenString); //eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxd
 
 Merk at edoc-api kun vil akseptere dette tokenet dersom riktig SHA256-nøkkel er benyttet til å generere tokenet.
 
-Tokenet må pakkes inn i en cookie av applikasjonen din. Hvordan dette gjøres, avhengier av applikasjonen din (e.g. .NET standard/framework). Nedenfor er et eksempel. Viktige punkter:
+Tokenet må leveres som en cookie av applikasjonen din. Hvordan dette gjøres, avhenger av applikasjonen din (e.g. .NET standard/framework/WebForms/Web API). Nedenfor er et eksempel. Viktige punkter:
+
 1. Cookie-navn må være "token"
 2. IKKE sett cookie-expiration. Cookien skal være en såkalt session/transient cookie. Hvis du setter expiration, vil cookien ikke bli borte selv om brukeren lukker nettleseren. 
 3. Sett riktig domene. Edoc-api og applikasjonen som utsteder cookien må ha samme topp-nivå-domene, og det er dette som skal settes her. Dersom din applikasjon kjører på www.mysite.com og edoc-api kjører på www.forms.mysite.com, må altså ".mysite.com" benyttes som domene på cookien.
@@ -51,7 +52,7 @@ Tokenet må pakkes inn i en cookie av applikasjonen din. Hvordan dette gjøres, 
 var cookieName = "token";
 var jwtToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IkRBMEJGRjQyLTNF...";
 
-var cookie = new HttpCookie(cookieName, jwtToken)
+var cookie = new System.Web.HttpCookie(cookieName, jwtToken)
 {
     Domain = domain,
     Path = "/",
@@ -61,3 +62,7 @@ var cookie = new HttpCookie(cookieName, jwtToken)
 
 HttpContext.Current.Response.SetCookie(cookie);
 ```
+
+For å logge brukeren ut, må du fjerne token-cookien, eller overskrive den med en cookie som har en blank verdi (string.Empty). 
+
+For å passe på at tokenet er gyldig så lenge brukeren er aktiv i løsningen, vil edoc-api "refreshe" tokenet hver gang det gjøres en operasjon mot edoc-api. Det vil si at edoc-api vil lese informasjonen som er satt i tokenet, og generere et nytt token med den samme informasjonen som er gyldig i en ny periode (default 20 minutter, men kan konfigureres i edoc-api). Dersom brukeren din forventes å oppholde seg i lengre tid i applikasjonen din, uten å være innom edoc-api, kan det være relevant at applikasjonen din passer på å refreshe tokenet før brukeren gjør en skjema-operasjon mot edoc-api, slik at brukeren har et gyldig token når vedkommende gjør en forespørsel mot edoc-api. 

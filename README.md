@@ -634,6 +634,11 @@ viewer.logOut("https://yoursite.com/logoutConfirmation");
 
 Du kan gjøre kallet til `viewer.logOut()` selv om brukeren ikke er innlogget. 
 
+Dersom du ønsker å håndtere server-side utlogging selv, er det viktig at du lar edoc-viewer fjerne eventuelle verdier den har lagt i HTML5 sessionStorage. Dette gjør du ved å kalle følgende metode _før_ du viderensender brukeren til din egen utloggings-side:
+
+```javascript
+viewer.removeAllSessionStorageItems();
+```
 
 ### `getForms()`
 `viewer.getForms()` returnerer tilgjengelige skjema for kunden. Eksempelet nedenfor viser hvordan skjema kan hentes og listes ut på en HTML-side.

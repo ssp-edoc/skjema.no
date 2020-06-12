@@ -27,10 +27,11 @@ Dersom du skal benytte viewer.js direkte på en HTML-side, kan du importere `nod
     </head>
 ```
 
-Dersom du ønsker å benytte samme stilsett som på skjema.no, kan du linke til CSS filen `node_modules/edoc-viewer/prod/viewer.min.css` slik:
+Dersom du ønsker å benytte samme stilsett som på skjema.no, kan du linke til CSS filen node_modules/edoc-viewer/prod/viewer.min.css og node_modules/edoc-viewer/prod/⁨⁨budlight⁩/⁨css/bud_basis-embedded.css⁩ slik:
 ```html
     <head>
         ...
+    	<link rel='stylesheet' href='bud_basis-embedded.css' type='text/css'  />
         <link rel='stylesheet' href='viewer.min.css' type='text/css'  />
         ...
     </head>

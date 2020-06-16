@@ -232,7 +232,7 @@ Det er tre verdier som må avtales med den som konfigurerer edoc-api:
 
 sha256key kan genereres via powershell slik:
 ```
-PS > New-Object System.Security.Cryptography.HMACSHA256 > [Convert]::ToBase64String($hmac.Key)
+PS > $hmac = New-Object System.Security.Cryptography.HMACSHA256
 PS > [Convert]::ToBase64String($hmac.Key)
 ```
 

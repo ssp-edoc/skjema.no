@@ -475,6 +475,34 @@ viewer
 |idleTimeoutMinutes  |60|Nei, default er 20|Antall minutter med inaktivitet før skjemadata fjernes.|
 |warningTimeoutMinutes|5|Nei|Utfyller blir gitt en advarsel om at sesjonen vil tømmes dette antall minutter i forveien.|
 
+### `renderMyCasesTo()`
+Bruk denne metoden for å rendre ut en liste over "mine saker". Listen inneholder lagrede skjemaer og innsendte skjemaer.
+
+#### Eksempel
+```javascript
+<div id="myCases"></div>
+
+viewer
+    .init({...})
+    .renderMyCasesTo(document.getElementById("myCases"), "nettside path") // F.eks https://rollag.aim.prokom.no/article/xxx
+```
+HTML vil bli generert inn til myCases elementet.
+Lenkene i lagrede skjema vil da bli: https://rollag.aim.prokom.no/article/xxx/<refId>
+
+### `setLanguage()`
+Ønsker du å sette/bytte språk for viewer, bruk denne metoden.
+OBS! Ikke alle skjema har alle tre språkene tilgjengelig.
+```javascript
+viewer
+    .init({...})
+    .setLanguage("en")  //nb, nn eller en
+```
+nb = bokmål
+nn = nynorsk
+en = engelsk
+
+#### Eksempel
+
 ### Brukerhåndtering
 Dersom utfyller ikke er pålogget, men gjør en handling i viewer.js som krever pålogging, vil edoc-api sende brukeren til en identity-provider for pålogging. Handlinger i viewer.js som krever pålogging er mellomlagring av utkast og gjenopptaking av utkast, samt oppstart av skjema der det er satt krav til sikkerhetsnivå. 
 

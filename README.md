@@ -487,7 +487,8 @@ viewer
     .renderMyCasesTo(document.getElementById("myCases"), "nettside path") // F.eks https://rollag.aim.prokom.no/article/xxx
 ```
 HTML vil bli generert inn til myCases elementet.
-Lenkene i lagrede skjema vil da bli: https://rollag.aim.prokom.no/article/xxx/<refId>
+<br />
+Lenkene i lagrede skjema vil da bli: https://rollag.aim.prokom.no/article/xxx/ `<refId>`
 
 ### `setLanguage()`
 Ønsker du å sette/bytte språk for viewer, bruk denne metoden.

@@ -97,6 +97,7 @@ viewer.init({
 |customerId|9998|Ja|Kunde-id|
 |expand|"first" (default) eller "none"|Nei|Oppgi "none" dersom du ønsker at alle sider er kollapset når skjemaet startes. Per default vil første side i skjemaet være ekspandert.|
 |attachmentMaxMb|40 (default)|Nei|Oppgi dersom en annen maksgrense enn 40 MB (default) er ønskelig for maksimal størrelse på opplastet vedlegg.|
+|skipReadAndAcceptedPrivacy|true eller false|Nei|Oppgi true dersom det er ønskelig å hoppe over "Aksepter personvern"|
 |hide.title|true|Nei|Oppgi true dersom det er ønskelig å skjule tittel|
 |hide.buttons|true|Nei|Oppgi true dersom det er ønskelig å skjule knappene for "avbryt", "lagre" og til "kontroll"|
 |hide.save|true|Nei|Oppgi true dersom det er ønskelig å skjule "lagre"-knappen.|

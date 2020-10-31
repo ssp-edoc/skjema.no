@@ -27,10 +27,11 @@ Dersom du skal benytte viewer.js direkte på en HTML-side, kan du importere `nod
     </head>
 ```
 
-Dersom du ønsker å benytte samme stilsett som på skjema.no, kan du linke til CSS filen `node_modules/edoc-viewer/prod/viewer.min.css` slik:
+Dersom du ønsker å benytte samme stilsett som på skjema.no, kan du linke til CSS filen node_modules/edoc-viewer/prod/viewer.min.css og node_modules/edoc-viewer/prod/⁨⁨budlight⁩/⁨css/bud_basis-embedded.css⁩ slik:
 ```html
     <head>
         ...
+    	<link rel='stylesheet' href='bud_basis-embedded.css' type='text/css'  />
         <link rel='stylesheet' href='viewer.min.css' type='text/css'  />
         ...
     </head>
@@ -96,6 +97,7 @@ viewer.init({
 |customerId|9998|Ja|Kunde-id|
 |expand|"first" (default) eller "none"|Nei|Oppgi "none" dersom du ønsker at alle sider er kollapset når skjemaet startes. Per default vil første side i skjemaet være ekspandert.|
 |attachmentMaxMb|40 (default)|Nei|Oppgi dersom en annen maksgrense enn 40 MB (default) er ønskelig for maksimal størrelse på opplastet vedlegg.|
+|skipReadAndAcceptedPrivacy|true eller false|Nei|Oppgi true dersom det er ønskelig å hoppe over "Aksepter personvern"|
 |hide.title|true|Nei|Oppgi true dersom det er ønskelig å skjule tittel|
 |hide.buttons|true|Nei|Oppgi true dersom det er ønskelig å skjule knappene for "avbryt", "lagre" og til "kontroll"|
 |hide.save|true|Nei|Oppgi true dersom det er ønskelig å skjule "lagre"-knappen.|
@@ -245,7 +247,7 @@ Det er tre verdier som må avtales med den som konfigurerer edoc-api:
 
 sha256key kan genereres via powershell slik:
 ```
-PS > New-Object System.Security.Cryptography.HMACSHA256 > [Convert]::ToBase64String($hmac.Key)
+PS > $hmac = New-Object System.Security.Cryptography.HMACSHA256
 PS > [Convert]::ToBase64String($hmac.Key)
 ```
 
@@ -487,6 +489,35 @@ viewer
 |--------|--------|------------|-----------|
 |idleTimeoutMinutes  |60|Nei, default er 20|Antall minutter med inaktivitet før skjemadata fjernes.|
 |warningTimeoutMinutes|5|Nei|Utfyller blir gitt en advarsel om at sesjonen vil tømmes dette antall minutter i forveien.|
+
+### `renderMyCasesTo()`
+Bruk denne metoden for å rendre ut en liste over "mine saker". Listen inneholder lagrede skjemaer og innsendte skjemaer.
+
+#### Eksempel
+```javascript
+<div id="myCases"></div>
+
+viewer
+    .init({...})
+    .renderMyCasesTo(document.getElementById("myCases"), "nettside path") // F.eks https://rollag.aim.prokom.no/article/xxx
+```
+HTML vil bli generert inn til myCases elementet.
+<br />
+Lenkene i lagrede skjema vil da bli: https://rollag.aim.prokom.no/article/xxx/ `<refId>`
+
+### `setLanguage()`
+Ønsker du å sette/bytte språk for viewer, bruk denne metoden.
+OBS! Ikke alle skjema har alle tre språkene tilgjengelig.
+```javascript
+viewer
+    .init({...})
+    .setLanguage("en")  //nb, nn eller en
+```
+nb = bokmål
+nn = nynorsk
+en = engelsk
+
+#### Eksempel
 
 ### Brukerhåndtering
 Dersom utfyller ikke er pålogget, men gjør en handling i viewer.js som krever pålogging, vil edoc-api sende brukeren til en identity-provider for pålogging. Handlinger i viewer.js som krever pålogging er mellomlagring av utkast og gjenopptaking av utkast, samt oppstart av skjema der det er satt krav til sikkerhetsnivå. 

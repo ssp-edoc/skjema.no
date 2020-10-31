@@ -172,6 +172,20 @@ viewer
 
 Merk at viewer.js vil hive en exception dersom mer enn én av `formId`, `refId` eller `previewId` er satt. 
 
+##### Angi at et utkast av gitt `formId` skal gjennoptas, dersom det foreligger et
+Når `formId` parameteren er satt, vil viewer.js per default starte et nytt, tomt skjema av angitt id. Dersom det er ønskelig å la innlogget bruker gjenoppta et tidligere mellomlagret utkast dersom det foreligger av gitt skjematype, kan egenskapen `newMode` settes som vist nedenfor. 
+
+```javascript
+viewer
+    .init({...})
+    .form({
+        ...
+        formId: "701660",
+		newMode: "resumeDraft",
+        ...
+    });
+```
+
 ##### Angi skjema-data ved oppstart; preutfylling, forhåndsutfylling
 Dersom det er ønskelig at skjemaet starter opp med initielle-data, kan disse oppgis i `initialData`. 
 

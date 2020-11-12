@@ -13,6 +13,8 @@ edpc-api bruker et JWT token for å identifisere brukeren. Dette tokenet kan uts
 Install-Package eDocument.Core.Web.Token 
 ```
 
+#### Genererer SHA256-nøkkel
+
 For å generere et token som aksepteres av edoc-api, må du få oppgitt den symmetriske SHA256-nøkkelen som edoc-api installasjonen er konfigurert med. Denne nøkkelen er SVÆRT PRIVAT og SENSITIV og skal ikke deles med uvedkommende. 
 
 
@@ -22,6 +24,8 @@ PS > $hmac = New-Object System.Security.Cryptography.HMACSHA256
 PS > [Convert]::ToBase64String($hmac.Key)
 AQihRq+hH4IYRYclfDNOQ80isVYHhs5AUFQic7VWHsQmvUVfyJnvQLNkRoS3e+FeiAVFyR36rh8xXf3zs2apBA==
 ```
+
+#### Opprett token
 
 Gitt at du har en nøkkel og info om en bruker, kan du nå generere et JWT token slik:
 ```
@@ -39,6 +43,40 @@ Console.WriteLine(tokenString); //eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxd
 ```
 
 Merk at edoc-api kun vil akseptere dette tokenet dersom riktig SHA256-nøkkel er benyttet til å generere tokenet.
+
+#### Opprett token med custom claims
+
+Dersom du har egne "claims" eller info du ønsker å legge inn i tokenet for senere uthenting, kan du legge disse inn i tokenet på følgende måte:
+
+```
+
+var customClaims = new Dictionary<string, string>();
+
+customClaims["foo"] = "bar";
+customClaims["bah"] = "baz";
+
+var tokenString = eDocument.Core.Web.JwtToken.CreateUserToken(
+    friendlyUsername: "Ole Olsen",
+    actualUniqueUsername: "DA0BFF42-3EAD-41F2-BBF9-97F53BB2B09E",
+    idleTimeoutMinutes: 20,
+    securityLevel: 3,
+    key: secretKey,
+	claims: customClaims
+);
+
+```
+
+Når du senere får tak i `ApiUser`, eksempelvis i en preutfylling, vil du kunne hente ut informasjonen igjen slik:
+
+```
+
+var apiUserPrincipal = HttpContext.Current.User as ApiUser.ApiUserPrincipal;
+var fooValue = apiUserPrincipal.ApiUser.PropertyBag["foo"]; //bar
+var bahValue = apiUserPrincipal.ApiUser.PropertyBag["bah"]; //baz
+
+```
+
+#### Pakk tokenet inn i en cookie
 
 Tokenet må leveres som en cookie av applikasjonen din. Hvordan dette gjøres, avhenger av applikasjonen din (e.g. .NET standard/framework/WebForms/Web API). Nedenfor er et eksempel. Viktige punkter:
 

@@ -61,7 +61,7 @@ var tokenString = eDocument.Core.Web.JwtToken.CreateUserToken(
     idleTimeoutMinutes: 20,
     securityLevel: 3,
     key: secretKey,
-	claims: customClaims
+    claims: customClaims
 );
 
 ```

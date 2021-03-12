@@ -37,6 +37,18 @@ Dersom du ønsker å benytte samme stilsett som på skjema.no, kan du linke til 
     </head>
 ```
 
+Det er også anbefalt å bruke viewer.min.css med et reset style. Som f.eks reboot til bootstrap. 
+Ønsker du å lage din egen reset kan du også gjøre det. 
+```html
+    <head>
+        ...
+    	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-reboot@4.5.4/reboot.min.css">
+        <link rel='stylesheet' href='viewer.min.css' type='text/css'  />
+        ...
+    </head>
+```
+
+
 Opprett et tomt element der skjemaet skal rendres. Du bestemmer elementets id og oppgir denne i kall til `viewer.init()` (beskrevet nedenfor).
 
 ```html

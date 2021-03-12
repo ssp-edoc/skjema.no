@@ -537,6 +537,8 @@ Lenkene i lagrede skjema vil da bli: https://min-skjema-side.no/minPath/refId
 OBS! Metoden er ment til å bli brukt etter initialisering av viewer.form eller viewer.renderMyCasesTo. Ofte er metoden satt til en event listener som "click", "change" osv.
 
 OBS! Ikke alle skjema har alle tre språkene tilgjengelig.
+
+#### Eksempel
 ```javascript
 viewer
     .init({...})
@@ -551,8 +553,6 @@ document.getElementById("changeLanguageButton").addEventListener("click", functi
 nb = bokmål
 nn = nynorsk
 en = engelsk
-
-#### Eksempel
 
 ### Brukerhåndtering
 Dersom utfyller ikke er pålogget, men gjør en handling i viewer.js som krever pålogging, vil edoc-api sende brukeren til en identity-provider for pålogging. Handlinger i viewer.js som krever pålogging er mellomlagring av utkast og gjenopptaking av utkast, samt oppstart av skjema der det er satt krav til sikkerhetsnivå. 

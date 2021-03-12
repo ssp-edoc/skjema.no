@@ -95,6 +95,7 @@ viewer.init({
 |--------|--------|------------|-----------|
 |apiUrl  |https://api.skjema.no|Ja|Url til API-et|
 |customerId|9998|Ja|Kunde-id|
+|language|nb|Ja|Sette initielt språk|
 |expand|"first" (default) eller "none"|Nei|Oppgi "none" dersom du ønsker at alle sider er kollapset når skjemaet startes. Per default vil første side i skjemaet være ekspandert.|
 |attachmentMaxMb|40 (default)|Nei|Oppgi dersom en annen maksgrense enn 40 MB (default) er ønskelig for maksimal størrelse på opplastet vedlegg.|
 |skipReadAndAcceptedPrivacy|true eller false|Nei|Oppgi true dersom det er ønskelig å hoppe over "Aksepter personvern"|
@@ -120,6 +121,7 @@ viewer
 viewer
     .init({...})
     .form({
+    	language:"nb",
         divId: "<id til div>",
         formId: "<id til skjema som skal vises eller function() som returnerer denne>",
         refId: "<id til mellomlagret utkast som skal vises eller function() som returnerer denne>",
@@ -490,28 +492,61 @@ viewer
 |idleTimeoutMinutes  |60|Nei, default er 20|Antall minutter med inaktivitet før skjemadata fjernes.|
 |warningTimeoutMinutes|5|Nei|Utfyller blir gitt en advarsel om at sesjonen vil tømmes dette antall minutter i forveien.|
 
-### `renderMyCasesTo()`
+### `initLocalization(array)`
+Bruk denne metoden for å intialisere språk for "mine saker".
+Argumentet som sendes inn er en liste over språkkoder. 
+
+OBS! Send inn kun språkkodene som er satt i administrator for siden. 
+Hvis du setter inn språkkode som ikke er støttet vil det feile.
+
+|Argument|Obligatorisk|Beskrivelse|
+|--------|--------|------------|
+|Array med string|Ja|Array med liste over språkkoder|
+
+#### Eksempel
+```javascript
+viewer.initLocalization(["nb", "nn"]); //Norsk bokmål og Nynorsk
+```
+
+### `renderMyCasesTo(domElement, string)`
 Bruk denne metoden for å rendre ut en liste over "mine saker". Listen inneholder lagrede skjemaer og innsendte skjemaer.
+
+OBS! viewer.initLocalization må bli kalt før metoden.
+
+|Argument|Obligatorisk|Beskrivelse|
+|--------|--------|------------|
+|DOMElement|Ja|Domelement hvor html innhold blir satt|
+|String|Ja, bruk "" hvis det ikke trengs|Path til URL for hver sak |
 
 #### Eksempel
 ```javascript
 <div id="myCases"></div>
 
-viewer
-    .init({...})
-    .renderMyCasesTo(document.getElementById("myCases"), "nettside path") // F.eks https://rollag.aim.prokom.no/article/xxx
+viewer.init({...});
+
+viewer.initLocalization(["nb", "nn"]);
+viewer.renderMyCasesTo(document.getElementById("myCases"), "minPath") // F.eks URL for en sak: "/<refId>" blir "minPath/<refId>"
 ```
 HTML vil bli generert inn til myCases elementet.
 <br />
-Lenkene i lagrede skjema vil da bli: https://rollag.aim.prokom.no/article/xxx/ `<refId>`
+Lenkene i lagrede skjema vil da bli: https://min-skjema-side.no/minPath/refId
 
 ### `setLanguage()`
 Ønsker du å sette/bytte språk for viewer, bruk denne metoden.
+
+OBS! Metoden er ment til å bli brukt etter initialisering av viewer.form eller viewer.renderMyCasesTo. Ofte er metoden satt til en event listener som "click", "change" osv.
+
 OBS! Ikke alle skjema har alle tre språkene tilgjengelig.
 ```javascript
 viewer
     .init({...})
-    .setLanguage("en")  //nb, nn eller en
+    .form({...}) 
+    
+//F.eks koble en click listener til en knapp hvor setLanguage blir kalt    
+document.getElementById("changeLanguageButton").addEventListener("click", function(){
+    viewer.setLanguage("en")  //nb, nn eller en
+});
+    
 ```
 nb = bokmål
 nn = nynorsk

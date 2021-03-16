@@ -2,6 +2,48 @@
 
 Pakken inneholder koden for edoc-viewer.
 
+## Innhold
+
+- [edoc-viewer](#edoc-viewer)
+  * [Installasjon](#installasjon)
+  * [API](#api)
+    + [Uthenting av versjonsnummer](#uthenting-av-versjonsnummer)
+    + [`init()`](#-init---)
+      - [init object:](#init-object-)
+    + [`form()`](#-form---)
+      - [form object:](#form-object-)
+        * [Angi skjema](#angi-skjema)
+        * [Angi at et utkast av gitt `formId` skal gjennoptas, dersom det foreligger et](#angi-at-et-utkast-av-gitt--formid--skal-gjennoptas--dersom-det-foreligger-et)
+        * [Angi skjema-data ved oppstart; preutfylling, forhåndsutfylling](#angi-skjema-data-ved-oppstart--preutfylling--forh-ndsutfylling)
+        * [Event-handling](#event-handling)
+          + [`onAborting`](#-onaborting-)
+          + [`onAborted`](#-onaborted-)
+          + [`onSaved`](#-onsaved-)
+          + [`onSubmitted`](#-onsubmitted-)
+          + [`onStarting`](#-onstarting-)
+          + [`onStarted`](#-onstarted-)
+    + [`addCallBackToApiOnFetch()` - Legge til callback for api fetch](#-addcallbacktoapionfetch------legge-til-callback-for-api-fetch)
+    + [`getCaseInfo()` - uthenting av info for kvittering](#-getcaseinfo------uthenting-av-info-for-kvittering)
+    + [`session()`](#-session---)
+      - [session object:](#session-object-)
+    + [`initLocalization(array)`](#-initlocalization-array--)
+      - [Eksempel](#eksempel)
+    + [`renderMyCasesTo(domElement, string)`](#-rendermycasesto-domelement--string--)
+      - [Eksempel](#eksempel-1)
+    + [`setLanguage()`](#-setlanguage---)
+      - [Eksempel](#eksempel-2)
+    + [Brukerhåndtering](#brukerh-ndtering)
+      - [Innlogging](#innlogging)
+      - [Sjekke om bruker er pålogget, hente info om pålogget bruker](#sjekke-om-bruker-er-p-logget--hente-info-om-p-logget-bruker)
+      - [Logge ut bruker](#logge-ut-bruker)
+    + [`getForms()`](#-getforms---)
+    + [`getCases()`, `getPdf()` og `deleteCase()`](#-getcases------getpdf----og--deletecase---)
+    + [Progresjonsvisning og feilhåndtering](#progresjonsvisning-og-feilh-ndtering)
+    + [Viewer](#viewer)
+    + [Styles](#styles)
+
+
+
 ## Installasjon
 
 Be om å få en accessKey til edoc-viewer fra support@prokom.no.
@@ -433,6 +475,40 @@ viewer
     });
 ```
 
+### `addCallBackToApiOnFetch()` - Legge til callback for api fetch
+Uthenting av data kan i noen tilfeller ta lengre tid enn forventet. Bruk metoden til å legge til "egendefinerte" handlinger ved fetch.
+
+|Egenskap|Eksempel|Obligatorisk|Beskrivelse|
+|--------|--------|------------|-----------|
+|ms  |3000|Ja|Millisekunder|
+|onStart  |() => { showCustomDialog("APIET kan ta lenger tid enn forventet.") }|Ja|Callback funksjon som vil trigge bare hvis API-request tar lenger tid enn det som er oppgitt i ms|
+|onEnd  |() => { hideCustomDialog() }|Ja|Callback funksjon som vil trigge på API complete / error. Denne trigger uansett.|
+
+Eksempel:
+```javascript
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const refId = viewer.util.getQuery("refId");
+
+        viewer
+            .init(...)
+	
+	viewer.addCallBackToApiOnFetch({
+	    ms:3000, // Tid i millisekunder for når onstart skal starte. Hvis fetch request tar mer enn 3000ms så vil onstart trigge.
+	    onStart(){
+		// Handlinger for ved fetch start (Trigger kun hvis api requesten ikke er ferdig etter 3000ms).
+	    },
+	    onEnd(){
+		// Handlinger for ved fetch complete eller error
+	    }
+	});
+	
+	viewer.form(...);	
+    });
+</script>
+
+<div id="receipt"></div>
+```
 
 ### `getCaseInfo()` - uthenting av info for kvittering
 Etter innsending av skjema er det vanlig å vise en side som viser skjemaets navn, tidspunkt for innsendelse og referanse id. Denne informasjonen hentes via kall til `viewer.getCaseInfo(refId)`. `refId` får du fra `onSubmitted()`-eventet når skjemaet sendes inn. 
@@ -928,8 +1004,6 @@ Alle viewer metoder som gjør et kall til edoc-api returnerer et `Promise`-objek
 </body>
 </html>
 ```
-
-## Innhold
 
 ### Viewer
 

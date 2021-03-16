@@ -10,7 +10,7 @@ Pakken inneholder koden for edoc-viewer.
     + [Uthenting av versjonsnummer](#uthenting-av-versjonsnummer)
     + [`init()`](#-init---)
       - [init object:](#init-object-)
-    + [`form()`](#-form---)
+    + [`form()`](#form)
       - [form object:](#form-object-)
         * [Angi skjema](#angi-skjema)
         * [Angi at et utkast av gitt `formId` skal gjennoptas, dersom det foreligger et](#angi-at-et-utkast-av-gitt--formid--skal-gjennoptas--dersom-det-foreligger-et)

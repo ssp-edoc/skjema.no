@@ -22,8 +22,8 @@ Pakken inneholder koden for edoc-viewer.
           + [`onSubmitted`](#onsubmitted)
           + [`onStarting`](#onstarting)
           + [`onStarted`](#onstarted)
-    + [`addCallBackToApiOnFetch()` - Legge til callback for api fetch](#addcallbacktoapionfetch------legge-til-callback-for-api-fetch)
-    + [`getCaseInfo()` - uthenting av info for kvittering](#-getcaseinfo------uthenting-av-info-for-kvittering)
+    + [`addCallBackToApiOnFetch()` - Legge til callback for api fetch](#addcallbacktoapionfetch---legge-til-callback-for-api-fetch)
+    + [`getCaseInfo()` - uthenting av info for kvittering](#-getcaseinfo---uthenting-av-info-for-kvittering)
     + [`session()`](#session)
       - [session object:](#session-object-)
     + [`initLocalization(array)`](#initlocalization-array)
@@ -37,11 +37,10 @@ Pakken inneholder koden for edoc-viewer.
       - [Sjekke om bruker er pålogget, hente info om pålogget bruker](#sjekke-om-bruker-er-p-logget--hente-info-om-p-logget-bruker)
       - [Logge ut bruker](#logge-ut-bruker)
     + [`getForms()`](#getforms)
-    + [`getCases()`, `getPdf()` og `deleteCase()`](#-getcases------getpdf----og--deletecase)
+    + [`getCases()`, `getPdf()` og `deleteCase()`](#-getcases-getpdf-og-deletecase)
     + [Progresjonsvisning og feilhåndtering](#progresjonsvisning-og-feilh-ndtering)
     + [Viewer](#viewer)
     + [Styles](#styles)
-
 
 
 ## Installasjon

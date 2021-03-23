@@ -481,7 +481,7 @@ Uthenting av data kan i noen tilfeller ta lengre tid enn forventet. Bruk metoden
 |--------|--------|------------|-----------|
 |ms  |3000|Ja|Millisekunder|
 |onStart  |() => { showCustomDialog("APIET kan ta lenger tid enn forventet.") }|Ja|Callback funksjon som vil trigge bare hvis API-request tar lenger tid enn det som er oppgitt i ms|
-|onEnd  |() => { hideCustomDialog() }|Ja|Callback funksjon som vil trigge på API complete / error. Denne trigger uansett.|
+|onEnd  |(status, xhrObj) => { hideCustomDialog() }|Ja|Callback funksjon som vil trigge på API complete / error. Denne trigger uansett.|
 
 Eksempel:
 ```javascript
@@ -497,7 +497,9 @@ Eksempel:
 	    onStart(){
 		// Handlinger for ved fetch start (Trigger kun hvis api requesten ikke er ferdig etter 3000ms).
 	    },
-	    onEnd(){
+	    onEnd(status, xhrObj){
+	    	// status gir enten "success" eller "error" (string)
+		// xhrObj kommer kun når det er error
 		// Handlinger for ved fetch complete eller error
 	    }
 	});

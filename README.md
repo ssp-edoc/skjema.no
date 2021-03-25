@@ -28,7 +28,7 @@ Pakken inneholder koden for edoc-viewer.
       - [session object:](#session-object-)
     + [`initLocalization(array)`](#initlocalization-array)
       - [Eksempel](#eksempel)
-    + [`renderMyCasesTo(domElement, string)`](#rendermycasesto-domelement--string)
+    + [`renderMyCasesTo(domElement, string)`](#rendermycasestodomelement-string)
       - [Eksempel](#eksempel-1)
     + [`setLanguage()`](#setlanguage)
       - [Eksempel](#eksempel-2)

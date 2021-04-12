@@ -615,7 +615,7 @@ OBS! viewer.initLocalization må bli kalt før metoden.
 
 viewer.init({...});
 
-viewer.initLocalization(["nb", "nn"]);
+viewer.initLocalization(["nb", "nn"]); //Trenger ikke denne hvis du har versjon 7.2.57 eller lavere
 viewer.renderMyCasesTo(document.getElementById("myCases"), "minPath") // F.eks URL for en sak: "/<refId>" blir "minPath/<refId>"
 ```
 HTML vil bli generert inn til myCases elementet.

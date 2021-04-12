@@ -587,6 +587,7 @@ Argumentet som sendes inn er en liste over språkkoder.
 
 OBS! Send inn kun språkkodene som er satt i administrator for siden. 
 Hvis du setter inn språkkode som ikke er støttet vil det feile.
+
 (Trenger ikke denne hvis du har versjon 7.2.57 eller lavere).
 
 |Argument|Obligatorisk|Beskrivelse|
@@ -602,7 +603,6 @@ viewer.initLocalization(["nb", "nn"]); //Norsk bokmål og Nynorsk
 Bruk denne metoden for å rendre ut en liste over "mine saker". Listen inneholder lagrede skjemaer og innsendte skjemaer.
 
 OBS! viewer.initLocalization må bli kalt før metoden. 
-(Trenger ikke denne hvis du har versjon 7.2.57 eller lavere).
 
 |Argument|Obligatorisk|Beskrivelse|
 |--------|--------|------------|

@@ -601,7 +601,8 @@ viewer.initLocalization(["nb", "nn"]); //Norsk bokmål og Nynorsk
 ### `renderMyCasesTo(domElement, string)`
 Bruk denne metoden for å rendre ut en liste over "mine saker". Listen inneholder lagrede skjemaer og innsendte skjemaer.
 
-OBS! viewer.initLocalization må bli kalt før metoden. (Trenger ikke denne hvis du har versjon 7.2.57 eller lavere).
+OBS! viewer.initLocalization må bli kalt før metoden. 
+(Trenger ikke denne hvis du har versjon 7.2.57 eller lavere).
 
 |Argument|Obligatorisk|Beskrivelse|
 |--------|--------|------------|

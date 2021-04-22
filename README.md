@@ -40,7 +40,7 @@ Pakken inneholder koden for edoc-viewer.
     + [`getCases()`, `getPdf()` og `deleteCase()`](#getcases-getpdf-og-deletecase)
       - [Data fra getCases](#data-fra-getcases)
       - [Eksempel](#eksempel-3)
-    + [Progresjonsvisning og feilhåndtering](#progresjonsvisning-og-feilh-ndtering)
+    + [Progresjonsvisning og feilhåndtering](#progresjonsvisning-og-feilhåndtering)
     + [Viewer](#viewer)
     + [Styles](#styles)
 

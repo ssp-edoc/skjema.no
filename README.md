@@ -39,7 +39,7 @@ Pakken inneholder koden for edoc-viewer.
     + [`getForms()`](#getforms)
     + [`getCases()`, `getPdf()` og `deleteCase()`](#getcases-getpdf-og-deletecase)
       - [Data fra getCases](#data-fra-getcases)
-      - [Eksempel](#eksempel-2)
+      - [Eksempel](#eksempel-3)
     + [Progresjonsvisning og feilhåndtering](#progresjonsvisning-og-feilh-ndtering)
     + [Viewer](#viewer)
     + [Styles](#styles)

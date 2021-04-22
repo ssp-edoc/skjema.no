@@ -878,7 +878,7 @@ Ved bruk av getCases vil du få tilbake to array som inneholder objekter som ser
     customerId:"kundeid",
     customerName:"kundenavn",
     formId:"someID",
-    modelDeletedOn:"2021-02-02 10:10:00",
+    modelDeletedOn:"2021-02-02 10:10:00", // Vises dersom skjema-data er slettet for innsendt søknad
     name:"SomeName",
     refId:"WBTVBR",
     taskId:"00000...",
@@ -886,6 +886,7 @@ Ved bruk av getCases vil du få tilbake to array som inneholder objekter som ser
 }
 ```
 Hvert objekt representerer et skjema.
+<br />
 Dersom skjema-data er slettet for en innsendt søknad vil JSON for skjemaet inneholde egenskapen "modelDeletedOn".
 
 #### Eksempel

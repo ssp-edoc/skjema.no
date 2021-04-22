@@ -38,6 +38,8 @@ Pakken inneholder koden for edoc-viewer.
       - [Logge ut bruker](#logge-ut-bruker)
     + [`getForms()`](#getforms)
     + [`getCases()`, `getPdf()` og `deleteCase()`](#getcases-getpdf-og-deletecase)
+      - [Data fra getCases](#Data fra getCases)
+      - [Eksempel](#eksempel-2)
     + [Progresjonsvisning og feilhåndtering](#progresjonsvisning-og-feilh-ndtering)
     + [Viewer](#viewer)
     + [Styles](#styles)
@@ -867,6 +869,25 @@ viewer.removeAllSessionStorageItems();
 2. utkastene kan gjenopptas ved å videresende bruker til en side som laster viewer.js
 3. PDF for innsendte saker kan lastes ned via `viewer.getPdf(refId)`. PDF-en genereres on the fly av edoc-api. Edoc-api sjekker at innlogget bruker har rettighet på saken det blir forsøkt lastet ned PDF for. 
 
+#### Data fra getCases
+Ved bruk av getCases vil du få tilbake et objekt som ser noe slik:
+
+```javascript
+{
+    createdOn:"2021-01-01 10:10:00",
+    customerId:"kundeid",
+    customerName:"kundenavn",
+    formId:"someID",
+    modelDeletedOn:"2021-02-02 10:10:00",
+    name:"SomeName",
+    refId:"WBTVBR",
+    taskId:"00000...",
+    updatedOn:"2021-02-02 09:00:00
+}
+```
+Dersom skjema-data er slettet for en innsendt søknad vil JSON for skjemaet inneholde egenskapen "modelDeletedOn".
+
+#### Eksempel
 ```html
 <!DOCTYPE html>
 <html>

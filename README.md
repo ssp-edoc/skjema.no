@@ -870,7 +870,7 @@ viewer.removeAllSessionStorageItems();
 3. PDF for innsendte saker kan lastes ned via `viewer.getPdf(refId)`. PDF-en genereres on the fly av edoc-api. Edoc-api sjekker at innlogget bruker har rettighet på saken det blir forsøkt lastet ned PDF for. 
 
 #### Data fra getCases
-Ved bruk av getCases vil du få tilbake et objekt som ser noe slik:
+Ved bruk av getCases vil du få tilbake to array som inneholder objekter som ser noe slik:
 
 ```javascript
 {
@@ -885,6 +885,7 @@ Ved bruk av getCases vil du få tilbake et objekt som ser noe slik:
     updatedOn:"2021-02-02 09:00:00
 }
 ```
+Hvert objekt representerer et skjema.
 Dersom skjema-data er slettet for en innsendt søknad vil JSON for skjemaet inneholde egenskapen "modelDeletedOn".
 
 #### Eksempel

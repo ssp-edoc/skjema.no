@@ -22,6 +22,8 @@ Pakken inneholder koden for edoc-viewer.
           + [`onSubmitted`](#onsubmitted)
           + [`onStarting`](#onstarting)
           + [`onStarted`](#onstarted)
+          + [`onPrefillStarting`](#onPrefillStarting)
+          + [`onPrefillFinished`](#onPrefillFinished)
     + [`addCallBackToApiOnFetch()` - Legge til callback for api fetch](#addcallbacktoapionfetch---legge-til-callback-for-api-fetch)
     + [`getCaseInfo()` - uthenting av info for kvittering](#getcaseinfo---uthenting-av-info-for-kvittering)
     + [`session()`](#session)
@@ -473,6 +475,36 @@ viewer
         onStarted: function({template, model, customer}) {
             //do something useful with info from template/model/customer
         },        
+    });
+```
+
+###### `onPrefillStarting`
+`onPrefillStarting` blir kalt _før_ viewer starter preutfylling. Eventet kan eksempelvis benyttes til å disable knapper i løsningen din. 
+
+```javascript
+viewer
+    .init({...})
+    .form({
+        ...
+        onPrefillStarting: function() {
+			const myButton = document.getElementById("myButton");
+			myButton.setAttribute("disabled", "disabled");
+        },
+    });
+```
+
+###### `onPrefillFinished`
+`onPrefillFinished` blir kalt _etter_ at viewer har fullført preutfylling. Eventet kan eksempelvis benyttes til å enable knapper i løsningen dinsom er blitt disablet i `onPrefillStarting`. 
+
+```javascript
+viewer
+    .init({...})
+    .form({
+        ...
+        onPrefillFinished: function() {
+			const myButton = document.getElementById("myButton");
+			myButton.removeAttribute("disabled");
+        },
     });
 ```
 

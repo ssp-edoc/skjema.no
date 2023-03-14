@@ -494,7 +494,7 @@ viewer
 ```
 
 ###### `onPrefillFinished`
-`onPrefillFinished` blir kalt _etter_ at viewer har fullført preutfylling. Eventet kan eksempelvis benyttes til å enable knapper i løsningen dinsom er blitt disablet i `onPrefillStarting`. 
+`onPrefillFinished` blir kalt _etter_ at viewer har fullført preutfylling. Eventet kan eksempelvis benyttes til å enable knapper i løsningen din som er blitt disablet i `onPrefillStarting`. 
 
 ```javascript
 viewer

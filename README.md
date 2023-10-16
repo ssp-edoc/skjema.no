@@ -19,6 +19,7 @@ Pakken inneholder koden for edoc-viewer.
           + [`onAborting`](#onaborting)
           + [`onAborted`](#onaborted)
           + [`onSaved`](#onsaved)
+          + [`onSubmitting`](#onsubmitting)
           + [`onSubmitted`](#onsubmitted)
           + [`onStarting`](#onstarting)
           + [`onStarted`](#onstarted)
@@ -187,7 +188,8 @@ viewer
         onAborting: function(proceed) { ... },
         onAborted: function() { ... },
         onSaved: function() {},
-        onSubmitted: function() {}        
+        onSubmitting: function() { ... }
+        onSubmitted: function() { ... }
     });
 ```
 
@@ -361,6 +363,9 @@ viewer
                 window.location = "saveReceipt.html?refId=" + saveInfo.externalRefId;
             }
         },
+        onSubmitting: function() {
+            return true;
+        }
         onSubmitted: function(receipt) {
             window.location = "submitReceipt.html?refId=" + receipt.refId;
         }
@@ -394,8 +399,9 @@ viewer
                     function() {
                         proceed(false); //utfylling avbrytes, det lagres IKKE et utkast
                     });
+
             //dersom showAbortConfirmationDialog ikke fyrer eventet .on("click"), blir ikke skjemaet avbrutt.
-        },
+        }
     });
 ```
 
@@ -411,7 +417,7 @@ viewer
         ...
         onAborted: function() {
             window.location = "index.html";
-        },        
+        }
     });
 ```
 
@@ -425,6 +431,22 @@ viewer
         ...
         onSaved: function() {
             window.location = "cases.html";
+        }
+    });
+```
+
+###### `onSubmitting`
+`onSubmitting` blir kalt når utfyller trykker send-inn og før selve innsendingen blir utført. Det er valgfritt å registrere en eventhandler til dette eventet. Dersom du IKKE registrerer noen eventhandler til dette eventet, vil innsendingen gjennomføres.
+
+Dersom du ønsker å avbryte innsendingen, returnerer du `false` fra funksjonen. Ved alle andre retur-verdier (e.g. `true` eller ingen retur-verdi), blir innsendingen gjennomført.
+
+```javascript
+viewer
+    .init({...})
+    .form({
+        ...
+        onSubmitting: function() {
+           return false; //cancels the submit
         }
     });
 ```

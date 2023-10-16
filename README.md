@@ -76,7 +76,7 @@ Dersom du ønsker å benytte samme stilsett som på skjema.no, kan du linke til 
 ```html
     <head>
         ...
-    	<link rel='stylesheet' href='bud_basis-embedded.css' type='text/css'  />
+        <link rel='stylesheet' href='bud_basis-embedded.css' type='text/css'  />
         <link rel='stylesheet' href='viewer.min.css' type='text/css'  />
         ...
     </head>
@@ -87,7 +87,7 @@ Det er også anbefalt å bruke viewer.min.css med et reset style. Som f.eks rebo
 ```html
     <head>
         ...
-    	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-reboot@4.5.4/reboot.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-reboot@4.5.4/reboot.min.css">
         <link rel='stylesheet' href='viewer.min.css' type='text/css'  />
         ...
     </head>
@@ -178,15 +178,14 @@ viewer
 viewer
     .init({...})
     .form({
-    	language:"nb",
+        language:"nb",
         divId: "<id til div>",
         formId: "<id til skjema som skal vises eller function() som returnerer denne>",
         refId: "<id til mellomlagret utkast som skal vises eller function() som returnerer denne>",
         previewId: "<id til forhåndsvisning eller function() som returnerer denne>",
         initialData: <JSON-objekt med skjemadata>,
-        onAborting: function(proceed) {},
-        onAborted: function() {},
-        onSaving: function(proceed) {},
+        onAborting: function(proceed) { ... },
+        onAborted: function() { ... },
         onSaved: function() {},
         onSubmitted: function() {}        
     });
@@ -216,7 +215,7 @@ viewer
         },        
         previewId: function() {
             return viewer.util.getQuery("previewId");
-        }					
+        }
     });
 ```
 
@@ -291,7 +290,7 @@ viewer
     .form({
         formId: "701660",
         initialData: "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJza2plbWEubm8iLCJpc3MiOiJrcmlzdGlhbnNhbmQiLCJkYXRhIjp7InN5bmxpZyI6ImphIiwiZGlzYWJsZWQiOiJuZWkifSwiZXhwIjoxNTc4NTE4NjgxLjAsImlhdCI6MTU3ODUxNTA4MSwibmJmIjoxNTc4NTE1MDgxfQ.r_2wP2xln5SZGSR1NCb5NFfcjYPRkqCSWjmfLuSSxWo",
-		...
+        ...
     });
 ```
 
@@ -396,7 +395,7 @@ viewer
                         proceed(false); //utfylling avbrytes, det lagres IKKE et utkast
                     });
             //dersom showAbortConfirmationDialog ikke fyrer eventet .on("click"), blir ikke skjemaet avbrutt.
-        },        
+        },
     });
 ```
 
@@ -455,11 +454,11 @@ viewer
     .form({
         ...
         onStarting: function() {
-		    let readAndAcceptedPrivacy = sessionStorage.getItem("readAndAcceptedPrivacy"); //sjekk om bruker har godkjent personvernerklæring
-			
-			if(!readAndAcceptedPrivacy) {
-				showPrivacyConfirmation() //må implementeres av deg
-			}				
+            let readAndAcceptedPrivacy = sessionStorage.getItem("readAndAcceptedPrivacy"); //sjekk om bruker har godkjent personvernerklæring
+            
+            if(!readAndAcceptedPrivacy) {
+                showPrivacyConfirmation() //må implementeres av deg
+            }
         },        
     });
 ```
@@ -502,8 +501,8 @@ viewer
     .form({
         ...
         onPrefillFinished: function() {
-			const myButton = document.getElementById("myButton");
-			myButton.removeAttribute("disabled");
+            const myButton = document.getElementById("myButton");
+            myButton.removeAttribute("disabled");
         },
     });
 ```
@@ -525,20 +524,20 @@ Eksempel:
 
         viewer
             .init(...)
-	
-	viewer.addCallBackToApiOnFetch({
-	    ms:3000, // Tid i millisekunder for når onstart skal starte. Hvis fetch request tar mer enn 3000ms så vil onstart trigge.
-	    onStart(){
-		// Handlinger for ved fetch start (Trigger kun hvis api requesten ikke er ferdig etter 3000ms).
-	    },
-	    onEnd(status, xhrObj){
-	    	// status gir enten "success" eller "error" (string)
-		// xhrObj kommer kun når det er error
-		// Handlinger for ved fetch complete eller error
-	    }
-	});
-	
-	viewer.form(...);	
+    
+    viewer.addCallBackToApiOnFetch({
+        ms:3000, // Tid i millisekunder for når onstart skal starte. Hvis fetch request tar mer enn 3000ms så vil onstart trigge.
+        onStart(){
+        // Handlinger for ved fetch start (Trigger kun hvis api requesten ikke er ferdig etter 3000ms).
+        },
+        onEnd(status, xhrObj){
+            // status gir enten "success" eller "error" (string)
+        // xhrObj kommer kun når det er error
+        // Handlinger for ved fetch complete eller error
+        }
+    });
+    
+    viewer.form(...);
     });
 </script>
 
@@ -708,14 +707,14 @@ viewer
     .form({
         ...
         onAuthenticationRequired: (info) => {
-			//info inneholder info om krav til pålogging satt i edoc-admin
-			let requiredSecuritylevel = info.requiredSecurityLevel;
-			
-			//TODO: gjør ønsket handling i forbindelse med pålogging. Videresend bruker til pålogging, sørg for at bruker blir sendt tilbake til denne siden etter pålogging. 
-			
-			//viewer.logIn({securityLevel: info.requiredSecurityLevel, returnUrl: 'valgfritt'});
-			//eller
-			//document.location = viewer.getLoginUrl({securityLevel: info.requiredSecurityLevel, returnUrl: 'valgfritt'}):
+            //info inneholder info om krav til pålogging satt i edoc-admin
+            let requiredSecuritylevel = info.requiredSecurityLevel;
+            
+            //TODO: gjør ønsket handling i forbindelse med pålogging. Videresend bruker til pålogging, sørg for at bruker blir sendt tilbake til denne siden etter pålogging. 
+            
+            //viewer.logIn({securityLevel: info.requiredSecurityLevel, returnUrl: 'valgfritt'});
+            //eller
+            //document.location = viewer.getLoginUrl({securityLevel: info.requiredSecurityLevel, returnUrl: 'valgfritt'}):
         }        
     })
 ```

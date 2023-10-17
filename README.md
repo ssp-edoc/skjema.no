@@ -438,15 +438,17 @@ viewer
 ###### `onSubmitting`
 `onSubmitting` blir kalt når utfyller trykker send-inn og før selve innsendingen blir utført. Det er valgfritt å registrere en eventhandler til dette eventet. Dersom du IKKE registrerer noen eventhandler til dette eventet, vil innsendingen gjennomføres.
 
-Dersom du ønsker å avbryte innsendingen, returnerer du `false` fra funksjonen. Ved alle andre retur-verdier (e.g. `true` eller ingen retur-verdi), blir innsendingen gjennomført.
+Dersom du ønsker å avbryte innsendingen, kaller du `proceed(false)`. Dersom du ønsker å gjennomføre innsendingen, kaller du `proceed(true)`.
 
 ```javascript
 viewer
     .init({...})
     .form({
         ...
-        onSubmitting: function() {
-           return false; //cancels the submit
+        onSubmitting: function(proceed) {
+            var isOkClicked = confirm("Are you sure you want to submit?");
+            var performSubmit = isOkClicked;
+            proceed(performSubmit);
         }
     });
 ```
